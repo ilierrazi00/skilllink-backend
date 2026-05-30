@@ -22,6 +22,8 @@ WORKDIR /app
 
 COPY . .
 
+RUN rm -rf vendor
+
 RUN composer install \
     --no-interaction \
     --prefer-dist \
