@@ -28,7 +28,6 @@ RUN composer install \
     --no-interaction \
     --prefer-dist \
     --no-dev \
-    --optimize-autoloader
 
 RUN test -f vendor/autoload_runtime.php && echo "FOUND"
 
