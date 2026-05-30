@@ -20,7 +20,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-COPY composer.json composer.lock ./
+COPY . .
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
@@ -28,13 +28,7 @@ RUN composer install \
     --no-interaction \
     --prefer-dist \
     --no-dev \
-
-RUN test -f vendor/autoload_runtime.php && echo "FOUND"
-
-COPY . .
-
-RUN ls -la vendor
-RUN ls -la vendor/autoload_runtime.php
+    --optimize-autoloader
 
 EXPOSE 8080
 
