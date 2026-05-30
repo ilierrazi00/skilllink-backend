@@ -22,7 +22,10 @@ WORKDIR /app
 
 COPY . .
 
-RUN composer install --no-interaction --prefer-dist
+RUN composer install \
+    --no-interaction \
+    --prefer-dist \
+    --no-scripts
 
 EXPOSE 8000
 
