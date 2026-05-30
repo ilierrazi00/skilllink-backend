@@ -20,17 +20,13 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
+COPY composer.json composer.lock ./
+
+RUN composer install --no-interaction --prefer-dist
+
 COPY . .
 
-RUN rm -rf vendor
+RUN ls -la vendor
+RUN ls -la vendor/autoload_runtime.php
 
-RUN composer install \
-    --no-interaction \
-    --prefer-dist \
-    --no-scripts \
- && ls -la vendor \
- && ls -la vendor/autoload_runtime.php
-
-EXPOSE 8000
-
-CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+CMD php -S 0.0.0.0:${PORT:-8000} -t public
