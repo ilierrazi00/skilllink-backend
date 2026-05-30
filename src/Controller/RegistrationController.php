@@ -113,34 +113,25 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             /*
-             |--------------------------------------------------------------------------
-             | EMAIL VERIFICATION
-             |--------------------------------------------------------------------------
-             */
-            $this->emailVerifier->sendEmailConfirmation(
-                'app_verify_email',
-                $user,
-                (new TemplatedEmail())
-                    ->from(
-                        new Address(
-                            'ilias.errazi@ecoles-epsi.net',
-                            'SkillLink Security'
-                        )
-                    )
-                    ->replyTo(
-                        'ilias.errazi@ecoles-epsi.net'
-                    )
-                    ->to((string) $user->getEmail())
-                    ->subject(
-                        'Confirmez votre adresse email SkillLink'
-                    )
-                    ->htmlTemplate(
-                        'registration/confirmation_email.html.twig'
-                    )
-                    ->context([
-                        'user' => $user,
-                    ])
-            );
+ |--------------------------------------------------------------------------
+ | EMAIL VERIFICATION
+ |--------------------------------------------------------------------------
+ */
+try {
+    $this->emailVerifier->sendEmailConfirmation(
+        'app_verify_email',
+        $user,
+        (new TemplatedEmail())
+            ->from(new Address('ilias.errazi@ecoles-epsi.net', 'SkillLink Security'))
+            ->replyTo('ilias.errazi@ecoles-epsi.net')
+            ->to((string) $user->getEmail())
+            ->subject('Confirmez votre adresse email SkillLink')
+            ->htmlTemplate('registration/confirmation_email.html.twig')
+            ->context(['user' => $user])
+    );
+} catch (\Exception $e) {
+    // Email non envoyé mais on redirige quand même
+}
 
             /*
              |--------------------------------------------------------------------------
