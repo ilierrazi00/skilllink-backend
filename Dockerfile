@@ -34,4 +34,6 @@ COPY . .
 RUN ls -la vendor
 RUN ls -la vendor/autoload_runtime.php
 
-CMD php -S 0.0.0.0:${PORT:-8000} -t public
+EXPOSE 8080
+
+CMD ["sh", "-c", "php -S 0.0.0.0:${PORT} -t public"]
