@@ -27,7 +27,10 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install \
     --no-interaction \
     --prefer-dist \
-    --no-scripts
+    --no-dev \
+    --optimize-autoloader
+
+RUN test -f vendor/autoload_runtime.php && echo "FOUND"
 
 COPY . .
 
