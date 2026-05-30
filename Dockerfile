@@ -27,8 +27,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install \
     --no-interaction \
     --prefer-dist \
-    --no-dev \
-    --optimize-autoloader
+    --no-scripts
 
 COPY . .
 
