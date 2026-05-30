@@ -1,0 +1,158 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if is_granted('ROLE_CANDIDATE') and not is_granted('ROLE_RECRUITER') %}
+        Postuler à une offre | SkillLink
+    {% else %}
+        Nouvelle Candidature | SkillLink
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+
+<div class="max-w-7xl mx-auto space-y-10">
+
+    {# ===================================================== #}
+    {# RECRUITER / ADMIN VIEW                               #}
+    {# ===================================================== #}
+    {% if is_granted('ROLE_RECRUITER') or is_granted('ROLE_ADMIN') %}
+
+        <!-- HERO -->
+        <section class="bg-gradient-to-r from-indigo-700 to-purple-700 text-white rounded-3xl shadow-2xl p-10">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+                        Ajouter une Nouvelle Candidature 📊
+                    </h1>
+
+                    <p class="text-lg text-indigo-100 max-w-3xl">
+                        Associez efficacement un candidat à une offre,
+                        structurez votre processus de recrutement
+                        et optimisez votre ATS SkillLink.
+                    </p>
+                </div>
+
+                <div class="text-7xl hidden md:block">
+                    🚀
+                </div>
+
+            </div>
+        </section>
+
+        <!-- FORM SECTION -->
+        <section class="bg-white rounded-3xl shadow-2xl p-10 border border-slate-100">
+
+            <div class="mb-10 text-center">
+                <h2 class="text-3xl font-bold text-slate-800 mb-3">
+                    Création de la candidature
+                </h2>
+
+                <p class="text-slate-600 text-lg">
+                    Complétez les informations nécessaires
+                    pour intégrer une nouvelle candidature.
+                </p>
+            </div>
+
+            <div class="space-y-8">
+                {{ include('application/_form.html.twig') }}
+            </div>
+
+            <div class="mt-10 text-center">
+                <a href="{{ path('app_application_index') }}"
+                   class="text-slate-600 hover:text-indigo-700 font-semibold transition text-lg">
+                    ← Retour à la liste
+                </a>
+            </div>
+
+        </section>
+
+    {% elseif is_granted('ROLE_CANDIDATE') %}
+
+        {# ===================================================== #}
+        {# CANDIDATE VIEW                                      #}
+        {# ===================================================== #}
+
+        <!-- HERO -->
+        <section class="bg-gradient-to-r from-indigo-700 via-purple-700 to-indigo-900 text-white rounded-3xl shadow-2xl p-10">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+
+                <div>
+                    <span class="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-5">
+                        Opportunité carrière
+                    </span>
+
+                    <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+                        Postuler à une offre 💼
+                    </h1>
+
+                    <p class="text-lg text-indigo-100 max-w-3xl">
+                        Candidatez facilement,
+                        développez votre carrière
+                        et suivez votre évolution professionnelle
+                        avec SkillLink.
+                    </p>
+                </div>
+
+                <div class="text-7xl hidden md:block">
+                    🌟
+                </div>
+
+            </div>
+        </section>
+
+        <!-- FORM -->
+        <section class="bg-white rounded-3xl shadow-2xl p-10 border border-slate-100">
+
+            <div class="mb-10 text-center">
+                <h2 class="text-3xl font-bold text-slate-800 mb-3">
+                    Soumettre ma candidature
+                </h2>
+
+                <p class="text-slate-600 text-lg">
+                    Sélectionnez l’offre souhaitée
+                    et envoyez votre candidature.
+                </p>
+            </div>
+
+            <div class="space-y-8">
+                {{ include('application/_form.html.twig') }}
+            </div>
+
+            <div class="mt-10 text-center">
+                <a href="{{ path('app_application_index') }}"
+                   class="text-slate-600 hover:text-indigo-700 font-semibold transition text-lg">
+                    ← Retour à mes candidatures
+                </a>
+            </div>
+
+        </section>
+
+    {% else %}
+
+        {# ===================================================== #}
+        {# SECURITY FALLBACK                                    #}
+        {# ===================================================== #}
+
+        <section class="bg-white rounded-3xl shadow-xl p-12 text-center border border-slate-100">
+
+            <h1 class="text-4xl font-extrabold text-slate-800 mb-6">
+                Accès non autorisé
+            </h1>
+
+            <p class="text-slate-600 text-lg mb-8">
+                Vous devez être connecté pour accéder à cette fonctionnalité.
+            </p>
+
+            <a href="{{ path('app_login') }}"
+               class="bg-indigo-700 hover:bg-indigo-800 text-white px-8 py-4 rounded-xl font-bold shadow-lg transition">
+                Se connecter
+            </a>
+
+        </section>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

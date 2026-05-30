@@ -1,0 +1,167 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réinitialisation du mot de passe | SkillLink{% endblock %}
+
+{% block body %}
+
+<div class="max-w-7xl mx-auto py-16">
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100">
+
+        <!-- ===================================================== -->
+        <!-- LEFT PANEL -->
+        <!-- ===================================================== -->
+        <div class="bg-gradient-to-br from-indigo-700 via-purple-700 to-indigo-900 text-white p-12 md:p-16 flex flex-col justify-center relative">
+
+            <div class="relative z-10">
+
+                <span class="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-6">
+                    Sécurité avancée • Gestion des accès
+                </span>
+
+                <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-8">
+                    Réinitialisez votre accès
+                    <span class="text-indigo-200">SkillLink 🔐</span>
+                </h1>
+
+                <p class="text-xl text-indigo-100 leading-relaxed mb-12">
+                    Sécurisez votre compte,
+                    récupérez rapidement votre accès
+                    et poursuivez votre activité
+                    sur votre plateforme RH intelligente.
+                </p>
+
+                <!-- Features -->
+                <div class="space-y-6">
+
+                    <div class="flex items-center gap-4">
+                        <span class="text-3xl">🔒</span>
+                        <span class="text-lg font-medium">
+                            Processus sécurisé
+                        </span>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <span class="text-3xl">📧</span>
+                        <span class="text-lg font-medium">
+                            Réinitialisation par email
+                        </span>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <span class="text-3xl">🛡️</span>
+                        <span class="text-lg font-medium">
+                            Protection renforcée
+                        </span>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <span class="text-3xl">🚀</span>
+                        <span class="text-lg font-medium">
+                            Retour rapide à vos activités
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Decorative -->
+            <div class="absolute bottom-0 right-0 text-[220px] opacity-10 font-black leading-none select-none hidden lg:block">
+                Safe
+            </div>
+
+        </div>
+
+        <!-- ===================================================== -->
+        <!-- RIGHT PANEL -->
+        <!-- ===================================================== -->
+        <div class="p-10 md:p-14 flex flex-col justify-center">
+
+            <!-- Header -->
+            <div class="text-center mb-10">
+                <h2 class="text-4xl font-extrabold text-indigo-700 mb-3">
+                    Mot de passe oublié ?
+                </h2>
+
+                <p class="text-slate-600 text-lg">
+                    Entrez votre adresse email pour recevoir
+                    un lien sécurisé de réinitialisation.
+                </p>
+            </div>
+
+            <!-- Flash Errors -->
+            {% for flash_error in app.flashes('reset_password_error') %}
+                <div class="mb-6 p-4 rounded-2xl bg-red-100 text-red-700 border border-red-300 font-medium shadow-sm">
+                    {{ flash_error }}
+                </div>
+            {% endfor %}
+
+            <!-- FORM -->
+            <form method="post"
+                  action="{{ path('app_forgot_password_request') }}"
+                  class="space-y-7">
+
+                <!-- CSRF TOKEN -->
+                {{ form_widget(requestForm._token) }}
+
+                <!-- EMAIL -->
+                <div>
+                    {{ form_label(requestForm.email, 'Adresse email', {
+                        'label_attr': {
+                            'class': 'block text-sm font-bold text-slate-700 mb-3'
+                        }
+                    }) }}
+
+                    {{ form_widget(requestForm.email, {
+                        'attr': {
+                            'class': 'w-full rounded-xl border border-slate-300 bg-slate-50 px-5 py-4 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition shadow-sm',
+                            'placeholder': 'Votre email professionnel'
+                        }
+                    }) }}
+
+                    <p class="text-xs text-slate-500 mt-2">
+                        Un email sécurisé vous sera envoyé si votre compte existe.
+                    </p>
+
+                    {{ form_errors(requestForm.email) }}
+                </div>
+
+                <!-- SUBMIT -->
+                <button type="submit"
+                        class="w-full bg-gradient-to-r from-indigo-700 to-purple-700 hover:from-indigo-800 hover:to-purple-800 text-white font-bold py-4 rounded-xl shadow-xl transition duration-300 text-lg hover:scale-[1.02]">
+                    📩 Envoyer le lien de réinitialisation
+                </button>
+
+            </form>
+
+            <!-- Divider -->
+            <div class="flex items-center my-8">
+                <div class="flex-grow border-t border-slate-200"></div>
+                <span class="px-4 text-sm text-slate-400 font-medium">ou</span>
+                <div class="flex-grow border-t border-slate-200"></div>
+            </div>
+
+            <!-- Login -->
+            <div class="text-center text-slate-600">
+                Vous vous souvenez de votre mot de passe ?
+                <a href="{{ path('app_login') }}"
+                   class="text-indigo-700 font-bold hover:underline ml-2">
+                    Retour à la connexion
+                </a>
+            </div>
+
+            <!-- Security Notice -->
+            <div class="mt-8 text-center text-xs text-slate-400 leading-relaxed">
+                SkillLink protège vos accès via
+                vérification sécurisée, conformité RGPD
+                et bonnes pratiques DevSecOps.
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

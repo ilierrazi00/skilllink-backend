@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail Compétence | SkillLink{% endblock %}
+
+{% block body %}
+
+<div class="max-w-6xl mx-auto space-y-10">
+
+    <!-- HERO -->
+    <section class="bg-gradient-to-r from-indigo-700 to-purple-700 text-white rounded-3xl shadow-2xl p-10">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+
+            <div>
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+                    {{ skill.nom }} 🛠️
+                </h1>
+
+                <p class="text-lg text-indigo-100 mb-4">
+                    {{ skill.categorie ?: 'Catégorie non définie' }}
+                </p>
+
+                <span class="inline-block bg-white/20 backdrop-blur-md px-5 py-2 rounded-full text-sm font-bold border border-white/30">
+                    {{ skill.candidateProfiles|length }} profil(s) associé(s)
+                </span>
+            </div>
+
+            <div class="text-7xl hidden md:block">
+                🚀
+            </div>
+
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <!-- ID -->
+        <div class="bg-white rounded-3xl shadow-lg p-8 border border-slate-100">
+            <h2 class="text-slate-500 text-sm uppercase font-semibold mb-3">
+                Identifiant
+            </h2>
+
+            <p class="text-4xl font-extrabold text-indigo-700">
+                #{{ skill.id }}
+            </p>
+        </div>
+
+        <!-- Category -->
+        <div class="bg-white rounded-3xl shadow-lg p-8 border border-slate-100">
+            <h2 class="text-slate-500 text-sm uppercase font-semibold mb-3">
+                Catégorie
+            </h2>
+
+            <p class="text-xl font-bold text-purple-700">
+                {{ skill.categorie ?: 'Non définie' }}
+            </p>
+        </div>
+
+        <!-- Profiles -->
+        <div class="bg-white rounded-3xl shadow-lg p-8 border border-slate-100">
+            <h2 class="text-slate-500 text-sm uppercase font-semibold mb-3">
+                Profils liés
+            </h2>
+
+            <p class="text-4xl font-extrabold text-green-600">
+                {{ skill.candidateProfiles|length }}
+            </p>
+        </div>
+
+    </section>
+
+    <!-- ASSOCIATED PROFILES -->
+    <section class="bg-white rounded-3xl shadow-2xl p-10 border border-slate-100">
+
+        <h2 class="text-3xl font-bold text-slate-800 mb-8">
+            Profils candidats associés
+        </h2>
+
+        {% if skill.candidateProfiles|length > 0 %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                {% for profile in skill.candidateProfiles %}
+                    <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200 hover:shadow-lg transition">
+
+                        <h3 class="text-xl font-bold text-indigo-700 mb-2">
+                            {{ profile.titreProfil }}
+                        </h3>
+
+                        <p class="text-slate-600 mb-3">
+                            📍 {{ profile.localisation ?: 'Localisation non renseignée' }}
+                        </p>
+
+                        <p class="text-sm text-slate-500">
+                            Expérience : {{ profile.experienceAnnees }} an(s)
+                        </p>
+
+                    </div>
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="bg-slate-50 rounded-2xl p-8 text-center border border-slate-200">
+                <p class="text-slate-500 text-lg">
+                    Aucun profil candidat actuellement associé à cette compétence.
+                </p>
+            </div>
+
+        {% endif %}
+
+    </section>
+
+    <!-- ACTIONS -->
+    <section class="bg-white rounded-3xl shadow-lg p-8 border border-slate-100">
+
+        <div class="flex flex-col md:flex-row flex-wrap gap-4 justify-between items-center">
+
+            <div class="flex flex-wrap gap-4">
+
+                {% if is_granted('ROLE_CANDIDATE') or is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_skill_edit', {'id': skill.id}) }}"
+                       class="bg-gradient-to-r from-indigo-700 to-purple-700 hover:from-indigo-800 hover:to-purple-800 text-white px-8 py-4 rounded-xl shadow-lg font-bold transition">
+                        ✏️ Modifier
+                    </a>
+                {% endif %}
+
+                <a href="{{ path('app_skill_index') }}"
+                   class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-8 py-4 rounded-xl font-bold transition">
+                    ← Retour
+                </a>
+
+            </div>
+
+            <!-- DELETE -->
+            {% if is_granted('ROLE_ADMIN') %}
+                <div>
+                    {{ include('skill/_delete_form.html.twig') }}
+                </div>
+            {% endif %}
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

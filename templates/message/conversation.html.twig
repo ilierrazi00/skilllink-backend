@@ -1,0 +1,169 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conversation | SkillLink{% endblock %}
+
+{% block body %}
+
+<div class="max-w-6xl mx-auto py-12 space-y-8">
+
+    <section class="bg-gradient-to-r from-indigo-700 via-purple-700 to-indigo-900 text-white rounded-3xl shadow-2xl p-8 md:p-10">
+
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+
+            <div class="flex items-center gap-5">
+
+                <div class="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center text-3xl font-bold shadow-lg border-4 border-white/20">
+                    {{ recipient.prenom ? recipient.prenom|first|upper : recipient.email|first|upper }}
+                </div>
+
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-extrabold">
+                        Conversation avec {{ recipient.prenom }} {{ recipient.nom }}
+                    </h1>
+
+                    <p class="text-indigo-100 mt-2 text-lg">
+                        {{ recipient.roleType|capitalize }} • {{ recipient.email }}
+                    </p>
+                </div>
+
+            </div>
+
+            <a href="{{ path('app_messages') }}"
+               class="bg-white text-indigo-700 px-6 py-3 rounded-2xl font-bold shadow hover:bg-indigo-50 hover:scale-105 transition">
+                ← Retour messagerie
+            </a>
+
+        </div>
+
+    </section>
+
+    <section class="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
+
+        <div class="p-8 space-y-6 max-h-[700px] overflow-y-auto bg-gradient-to-b from-slate-50 to-slate-100">
+
+            {% for message in conversation %}
+
+                {% set isMine = message.senderId == currentUser.id %}
+
+                {% if isMine %}
+
+                    <div style="display: flex; width: 100%; justify-content: flex-end;">
+                        <div style="display: flex; flex-direction: row-reverse; align-items: flex-end; gap: 0.75rem; max-width: 75%; margin-left: auto;">
+
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-700 to-purple-800 text-white flex items-center justify-center font-bold shadow shrink-0">
+                                {{ currentUser.prenom ? currentUser.prenom|first|upper : currentUser.email|first|upper }}
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; align-items: flex-end;">
+
+                                <div class="text-xs font-semibold mb-2 px-2 text-indigo-600">
+                                    Vous
+                                </div>
+
+                                <div class="px-5 py-4 rounded-3xl rounded-br-md shadow-lg bg-gradient-to-r from-indigo-600 via-purple-600 to-purple-700 text-white">
+
+                                    <p class="whitespace-pre-line text-base break-words leading-relaxed">
+                                        {{ message.content }}
+                                    </p>
+
+                                    <div class="text-[11px] mt-3 text-indigo-100" style="text-align: right;">
+                                        {{ message.createdAt|date('d/m/Y • H:i') }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                {% else %}
+
+                    <div style="display: flex; width: 100%; justify-content: flex-start;">
+                        <div style="display: flex; align-items: flex-end; gap: 0.75rem; max-width: 75%; margin-right: auto;">
+
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-slate-300 to-slate-400 text-slate-800 flex items-center justify-center font-bold shadow shrink-0">
+                                {{ recipient.prenom ? recipient.prenom|first|upper : recipient.email|first|upper }}
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+
+                                <div class="text-xs font-semibold mb-2 px-2 text-slate-500">
+                                    {{ recipient.prenom }}
+                                </div>
+
+                                <div class="px-5 py-4 rounded-3xl rounded-bl-md shadow-lg bg-white border border-slate-200 text-slate-800">
+
+                                    <p class="whitespace-pre-line text-base break-words leading-relaxed">
+                                        {{ message.content }}
+                                    </p>
+
+                                    <div class="text-[11px] mt-3 text-slate-400">
+                                        {{ message.createdAt|date('d/m/Y • H:i') }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                {% endif %}
+
+            {% else %}
+
+                <div class="text-center py-20">
+
+                    <div class="text-6xl mb-4">💬</div>
+
+                    <h3 class="text-2xl font-bold text-slate-700 mb-2">
+                        Aucune conversation pour le moment
+                    </h3>
+
+                    <p class="text-slate-500 text-lg">
+                        Envoyez votre premier message pour démarrer la discussion.
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="border-t border-slate-200 bg-white p-8">
+
+            <form method="post"
+                  action="{{ path('app_message_conversation', {'id': recipient.id}) }}"
+                  class="space-y-5">
+
+                <div>
+                    <label for="content"
+                           class="block text-sm font-bold text-slate-700 mb-3">
+                        Nouveau message
+                    </label>
+
+                    <textarea
+                        id="content"
+                        name="content"
+                        rows="4"
+                        required
+                        placeholder="Écrivez votre message..."
+                        class="w-full rounded-3xl border border-slate-300 bg-slate-50 px-6 py-5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none resize-none text-base shadow-sm"
+                    ></textarea>
+                </div>
+
+                <button type="submit"
+                        class="w-full bg-gradient-to-r from-indigo-700 via-purple-700 to-indigo-800 hover:from-indigo-800 hover:via-purple-800 hover:to-indigo-900 text-white font-bold py-4 rounded-3xl shadow-xl transition duration-300 text-lg hover:scale-[1.01]">
+                    📩 Envoyer le message
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

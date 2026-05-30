@@ -1,0 +1,386 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paramètres | SkillLink{% endblock %}
+
+{% block body %}
+
+<div class="max-w-7xl mx-auto py-16">
+
+    <!-- PAGE HEADER -->
+    <div class="mb-12 text-center">
+
+        <span class="inline-block bg-gradient-to-r from-indigo-700 to-purple-700 text-white px-6 py-3 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg mb-6">
+            Centre de gestion du compte
+        </span>
+
+        <h1 class="text-5xl md:text-6xl font-extrabold text-slate-800 mb-5">
+            Paramètres SkillLink ⚙️
+        </h1>
+
+        <p class="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
+            Centralisez la gestion de votre identité professionnelle,
+            renforcez votre sécurité
+            et optimisez votre présence sur la plateforme.
+        </p>
+
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-4 gap-10">
+
+        <!-- ===================================================== -->
+        <!-- SIDEBAR ULTRA PREMIUM -->
+        <!-- ===================================================== -->
+        <aside class="xl:col-span-1">
+
+            <div class="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden sticky top-28">
+
+                <!-- Banner -->
+                <div class="h-36 bg-gradient-to-br from-indigo-700 via-purple-700 to-indigo-900 relative">
+
+                    <div class="absolute inset-0 opacity-10 text-[180px] font-black text-white flex items-center justify-center">
+                        SL
+                    </div>
+
+                </div>
+
+                <!-- Profile -->
+                <div class="px-8 pb-10 relative">
+
+                    <!-- Avatar -->
+                    <div class="-mt-16 mb-6 flex justify-center">
+                        <div class="w-32 h-32 rounded-full bg-white p-2 shadow-2xl border-4 border-white">
+                            <div class="w-full h-full rounded-full bg-gradient-to-br from-indigo-600 to-purple-700 flex items-center justify-center text-white text-5xl font-extrabold">
+                                {{ user.prenom ? user.prenom|first|upper : user.email|first|upper }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Identity -->
+                    <div class="text-center">
+
+                        <h2 class="text-3xl font-extrabold text-slate-800">
+                            {{ user.prenom }} {{ user.nom }}
+                        </h2>
+
+                        <p class="text-slate-500 mt-3 break-all text-sm">
+                            {{ user.email }}
+                        </p>
+
+                        <span class="inline-block mt-5 px-6 py-2 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-widest shadow-sm">
+                            {{ user.roleType }}
+                        </span>
+
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="mt-10 grid grid-cols-1 gap-4">
+
+                        <div class="bg-slate-50 rounded-2xl p-4 flex justify-between items-center">
+                            <span class="text-sm font-medium text-slate-600">Compte vérifié</span>
+                            <span class="font-bold {{ user.isVerified ? 'text-green-600' : 'text-red-500' }}">
+                                {{ user.isVerified ? 'Oui ✅' : 'Non ❌' }}
+                            </span>
+                        </div>
+
+                        <div class="bg-slate-50 rounded-2xl p-4 flex justify-between items-center">
+                            <span class="text-sm font-medium text-slate-600">Statut</span>
+                            <span class="font-bold text-indigo-700 uppercase">
+                                {{ user.statut }}
+                            </span>
+                        </div>
+
+                        <div class="bg-slate-50 rounded-2xl p-4 flex justify-between items-center">
+                            <span class="text-sm font-medium text-slate-600">Création</span>
+                            <span class="font-semibold text-slate-700 text-sm">
+                                {{ user.dateCreation ? user.dateCreation|date('d/m/Y') : '-' }}
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <!-- Menu -->
+                    <div class="mt-10 border-t border-slate-200 pt-8 space-y-3">
+
+                        <div class="flex items-center gap-4 px-4 py-3 rounded-2xl bg-indigo-50 text-indigo-700 font-bold shadow-sm">
+                            <span class="text-xl">⚙️</span>
+                            <span>Gestion du profil</span>
+                        </div>
+
+                        <div class="flex items-center gap-4 px-4 py-3 rounded-2xl hover:bg-slate-50 text-slate-600 transition">
+                            <span class="text-xl">🔒</span>
+                            <span>Sécurité du compte</span>
+                        </div>
+
+                        <div class="flex items-center gap-4 px-4 py-3 rounded-2xl hover:bg-slate-50 text-slate-600 transition">
+                            <span class="text-xl">📩</span>
+                            <span>Préférences email</span>
+                        </div>
+
+                        <div class="flex items-center gap-4 px-4 py-3 rounded-2xl hover:bg-slate-50 text-slate-600 transition">
+                            <span class="text-xl">🛡️</span>
+                            <span>Confidentialité RGPD</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+        <!-- ===================================================== -->
+        <!-- MAIN CONTENT -->
+        <!-- ===================================================== -->
+        <section class="xl:col-span-3 space-y-12">
+
+            <!-- ===================================================== -->
+            <!-- PROFILE SETTINGS -->
+            <!-- ===================================================== -->
+            <div class="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
+
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-indigo-700 via-purple-700 to-indigo-900 px-12 py-14 text-white relative overflow-hidden">
+
+                    <div class="absolute right-10 bottom-0 text-[180px] opacity-10 font-black leading-none hidden lg:block">
+                        ⚙️
+                    </div>
+
+                    <div class="relative z-10">
+
+                        <span class="inline-block bg-white/20 px-5 py-2 rounded-full text-sm font-bold uppercase tracking-wider mb-6">
+                            Profil professionnel
+                        </span>
+
+                        <h2 class="text-4xl md:text-5xl font-extrabold mb-5">
+                            Gérez votre profil SkillLink
+                        </h2>
+
+                        <p class="text-indigo-100 text-lg leading-relaxed max-w-3xl">
+                            Mettez à jour vos informations,
+                            maintenez une identité professionnelle cohérente
+                            et valorisez votre présence sur la plateforme.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- Body -->
+                <div class="p-10 md:p-14">
+
+                    {% for message in app.flashes('success') %}
+                        <div class="mb-8 p-5 rounded-2xl bg-green-100 text-green-700 font-medium border border-green-200 shadow">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    {{ form_start(settingsForm, {
+                        'attr': {
+                            'class': 'space-y-8'
+                        }
+                    }) }}
+
+                        <!-- Names -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                            <div>
+                                {{ form_label(settingsForm.prenom, null, {
+                                    'label_attr': {
+                                        'class': 'block text-sm font-bold text-slate-700 mb-3'
+                                    }
+                                }) }}
+
+                                {{ form_widget(settingsForm.prenom, {
+                                    'attr': {
+                                        'class': 'w-full rounded-2xl border border-slate-300 bg-slate-50 px-5 py-4 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none shadow-sm'
+                                    }
+                                }) }}
+
+                                {{ form_errors(settingsForm.prenom) }}
+                            </div>
+
+                            <div>
+                                {{ form_label(settingsForm.nom, null, {
+                                    'label_attr': {
+                                        'class': 'block text-sm font-bold text-slate-700 mb-3'
+                                    }
+                                }) }}
+
+                                {{ form_widget(settingsForm.nom, {
+                                    'attr': {
+                                        'class': 'w-full rounded-2xl border border-slate-300 bg-slate-50 px-5 py-4 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none shadow-sm'
+                                    }
+                                }) }}
+
+                                {{ form_errors(settingsForm.nom) }}
+                            </div>
+
+                        </div>
+
+                        <!-- Email -->
+                        <div>
+                            {{ form_label(settingsForm.email, null, {
+                                'label_attr': {
+                                    'class': 'block text-sm font-bold text-slate-700 mb-3'
+                                }
+                            }) }}
+
+                            {{ form_widget(settingsForm.email, {
+                                'attr': {
+                                    'class': 'w-full rounded-2xl border border-slate-300 bg-slate-50 px-5 py-4 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none shadow-sm'
+                                }
+                            }) }}
+
+                            {{ form_errors(settingsForm.email) }}
+                        </div>
+
+                        <!-- Status -->
+                        <div>
+                            {{ form_label(settingsForm.statut, null, {
+                                'label_attr': {
+                                    'class': 'block text-sm font-bold text-slate-700 mb-3'
+                                }
+                            }) }}
+
+                            {{ form_widget(settingsForm.statut, {
+                                'attr': {
+                                    'class': 'w-full rounded-2xl border border-slate-300 bg-slate-200 px-5 py-4 text-slate-600 cursor-not-allowed shadow-sm'
+                                }
+                            }) }}
+
+                            <p class="text-xs text-slate-500 mt-2">
+                                Statut automatiquement administré par le système SkillLink.
+                            </p>
+
+                            {{ form_errors(settingsForm.statut) }}
+                        </div>
+
+                        <!-- Submit -->
+                        <button type="submit"
+                                class="w-full bg-gradient-to-r from-indigo-700 via-purple-700 to-indigo-900 hover:scale-[1.01] text-white font-bold py-5 rounded-2xl shadow-2xl transition duration-300 text-lg">
+                            💾 Enregistrer mes paramètres
+                        </button>
+
+                    {{ form_end(settingsForm) }}
+
+                </div>
+
+            </div>
+
+            <!-- ===================================================== -->
+            <!-- PASSWORD SETTINGS -->
+            <!-- ===================================================== -->
+            <div class="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
+
+                <!-- Header -->
+                <div class="bg-slate-900 px-12 py-12 text-white relative overflow-hidden">
+
+                    <div class="absolute right-8 bottom-0 text-[160px] opacity-10 font-black hidden lg:block">
+                        🔒
+                    </div>
+
+                    <div class="relative z-10">
+
+                        <span class="inline-block bg-white/10 px-5 py-2 rounded-full text-sm font-bold uppercase tracking-wider mb-5">
+                            Sécurité avancée
+                        </span>
+
+                        <h2 class="text-4xl font-extrabold mb-4">
+                            Sécurisez votre compte
+                        </h2>
+
+                        <p class="text-slate-300 text-lg leading-relaxed max-w-3xl">
+                            Modifiez régulièrement votre mot de passe
+                            pour maintenir un haut niveau de cybersécurité.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- Form -->
+                <div class="p-10 md:p-14">
+
+                    {{ form_start(passwordForm, {
+                        'attr': {
+                            'class': 'space-y-8'
+                        }
+                    }) }}
+
+                        <div>
+                            {{ form_label(passwordForm.currentPassword, null, {
+                                'label_attr': {
+                                    'class': 'block text-sm font-bold text-slate-700 mb-3'
+                                }
+                            }) }}
+
+                            {{ form_widget(passwordForm.currentPassword, {
+                                'attr': {
+                                    'class': 'w-full rounded-2xl border border-slate-300 bg-slate-50 px-5 py-4 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none shadow-sm'
+                                }
+                            }) }}
+
+                            {{ form_errors(passwordForm.currentPassword) }}
+                        </div>
+
+                        <div>
+                            {{ form_label(passwordForm.newPassword.first, null, {
+                                'label_attr': {
+                                    'class': 'block text-sm font-bold text-slate-700 mb-3'
+                                }
+                            }) }}
+
+                            {{ form_widget(passwordForm.newPassword.first, {
+                                'attr': {
+                                    'class': 'w-full rounded-2xl border border-slate-300 bg-slate-50 px-5 py-4 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none shadow-sm'
+                                }
+                            }) }}
+
+                            {{ form_errors(passwordForm.newPassword.first) }}
+                        </div>
+
+                        <div>
+                            {{ form_label(passwordForm.newPassword.second, null, {
+                                'label_attr': {
+                                    'class': 'block text-sm font-bold text-slate-700 mb-3'
+                                }
+                            }) }}
+
+                            {{ form_widget(passwordForm.newPassword.second, {
+                                'attr': {
+                                    'class': 'w-full rounded-2xl border border-slate-300 bg-slate-50 px-5 py-4 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none shadow-sm'
+                                }
+                            }) }}
+
+                            {{ form_errors(passwordForm.newPassword.second) }}
+                        </div>
+
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                🔐 Recommandation :
+                                utilisez au minimum 8 caractères,
+                                incluant majuscules,
+                                chiffres,
+                                et symboles spéciaux.
+                            </p>
+                        </div>
+
+                        <button type="submit"
+                                class="w-full bg-gradient-to-r from-slate-900 via-purple-800 to-indigo-900 hover:scale-[1.01] text-white font-bold py-5 rounded-2xl shadow-2xl transition duration-300 text-lg">
+                            🔒 Modifier mon mot de passe
+                        </button>
+
+                    {{ form_end(passwordForm) }}
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}SkillLink{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- SEO -->
+    <meta name="description" content="SkillLink - Plateforme intelligente de recrutement, matching de compétences et opportunités professionnelles.">
+    <meta name="keywords" content="emploi, recrutement, ATS, RH, compétences, carrière, entreprise, candidat, SkillLink">
+    <meta name="author" content="SkillLink">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="SkillLink">
+    <meta property="og:description" content="Réinventez le recrutement avec une plateforme RH intelligente.">
+    <meta property="og:type" content="website">
+
+    <!-- PWA -->
+    <meta name="theme-color" content="#4338ca">
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico">
+
+    {% block stylesheets %}
+        {{ importmap('app') }}
+    {% endblock %}
+</head>
+
+<body class="bg-slate-100 min-h-screen flex flex-col text-slate-800 antialiased selection:bg-indigo-600 selection:text-white">
+
+    {% set roleType = app.user ? app.user.roleType : null %}
+
+    <!-- ===================================================== -->
+    <!-- NAVBAR PREMIUM RESPONSIVE -->
+    <!-- ===================================================== -->
+    <nav class="bg-gradient-to-r from-indigo-700 via-purple-700 to-indigo-900 text-white shadow-2xl sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-[1700px] mx-auto px-4 lg:px-6 xl:px-10 py-4">
+
+            <div class="flex justify-between items-center gap-6">
+
+                <!-- LOGO -->
+                <a href="{{ path('app_home') }}"
+                   class="flex items-center gap-4 shrink-0 hover:scale-105 transition duration-300">
+
+                    <span class="text-4xl">🚀</span>
+
+                    <div class="leading-tight">
+                        <span class="block text-2xl xl:text-3xl font-extrabold tracking-tight">
+                            SkillLink
+                        </span>
+
+                        <span class="block text-[10px] xl:text-xs text-indigo-200 font-semibold uppercase tracking-widest mt-1">
+                            Smart Recruitment Platform
+                        </span>
+                    </div>
+
+                </a>
+
+                <!-- DESKTOP NAV -->
+                <div class="hidden lg:flex flex-1 items-center justify-between min-w-0">
+
+                    <!-- Main Links -->
+                    <div class="flex items-center gap-5 xl:gap-7 2xl:gap-8 text-sm xl:text-base font-semibold whitespace-nowrap overflow-x-auto pr-4">
+
+                        <a href="{{ path('app_home') }}"
+                           class="hover:text-indigo-200 transition duration-200 shrink-0">
+                            Accueil
+                        </a>
+
+                        {% if app.user %}
+
+                            <a href="{{ path('app_dashboard') }}"
+                               class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                Dashboard
+                            </a>
+
+                            {% if roleType == 'candidate' %}
+
+                                <a href="{{ path('app_job_offer_index') }}"
+                                   class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Offres
+                                </a>
+
+                                <a href="{{ path('app_skill_index') }}"
+                                   class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Compétences
+                                </a>
+
+                                <a href="{{ path('app_application_index') }}"
+                                   class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Mes candidatures
+                                </a>
+
+                                <a href="{{ path('app_messages') }}"
+                                    class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Messagerie
+                                </a>
+
+                                <a href="{{ path('app_candidate_profile_index') }}"
+                                   class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Mon Profil
+                                </a>
+
+                                <a href="{{ path('app_settings') }}"
+                                   class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Paramètres
+                                </a>
+
+                            {% elseif roleType == 'recruiter' %}
+
+                                <a href="{{ path('app_company_index') }}"
+                                   class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Entreprise
+                                </a>
+
+                                <a href="{{ path('app_job_offer_index') }}"
+                                   class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Offres
+                                </a>
+
+                                <a href="{{ path('app_application_index') }}"
+                                   class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Candidatures
+                                </a>
+
+                                <a href="{{ path('app_messages') }}"
+                                    class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Messagerie
+                                </a>
+
+                                <a href="{{ path('app_settings') }}"
+                                   class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Paramètres
+                                </a>
+
+                            {% elseif roleType == 'admin' %}
+
+                                <a href="{{ path('app_candidate_profile_index') }}"
+                                   class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Candidats
+                                </a>
+
+                                <a href="{{ path('app_company_index') }}"
+                                   class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Entreprises
+                                </a>
+
+                                <a href="{{ path('app_job_offer_index') }}"
+                                   class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Offres
+                                </a>
+
+                                <a href="{{ path('app_application_index') }}"
+                                   class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Supervision
+                                </a>
+
+                                <a href="{{ path('app_skill_index') }}"
+                                   class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Skills
+                                </a>
+
+                                <a href="{{ path('app_messages') }}"
+                                    class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Messagerie
+                                </a>
+
+                                <a href="{{ path('app_settings') }}"
+                                   class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                    Paramètres
+                                </a>
+
+                            {% endif %}
+
+                        {% else %}
+
+                            <a href="{{ path('app_register') }}"
+                               class="hover:text-indigo-200 transition duration-200 shrink-0">
+                                Inscription
+                            </a>
+
+                        {% endif %}
+
+                    </div>
+
+                    <!-- USER AREA -->
+                    <div class="flex items-center gap-4 ml-10 pl-4 shrink-0">
+
+                        {% if app.user %}
+
+                            <div class="flex items-center gap-3 pl-4 border-l border-indigo-300">
+
+                                <a href="{% if roleType == 'candidate' %}{{ path('app_candidate_profile_index') }}{% else %}{{ path('app_settings') }}{% endif %}"
+                                   class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center font-bold text-lg shadow-md hover:bg-white/30 hover:scale-110 transition duration-300 cursor-pointer"
+                                   title="Accéder à mon profil">
+                                    {{ app.user.prenom ? app.user.prenom|first|upper : 'U' }}
+                                </a>
+
+                                <div class="leading-tight hidden xl:block">
+                                    <div class="font-bold text-sm">
+                                        {{ app.user.prenom ?: 'Utilisateur' }}
+                                    </div>
+
+                                    <div class="text-indigo-200 text-xs uppercase tracking-wider">
+                                        {{ roleType|capitalize }}
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <a href="{{ path('app_messages') }}"
+                                class="relative bg-white/15 hover:bg-white/25 p-3 rounded-xl transition duration-300 shadow-md"
+                                title="Messagerie">
+                                💬
+                            </a>
+
+                            <!-- Notification Icon -->
+                            <a href="{{ path('app_notifications') }}"
+                               class="relative bg-white/15 hover:bg-white/25 p-3 rounded-xl transition duration-300 shadow-md"
+                               title="Notifications">
+                                🔔
+                            </a>
+
+                            <a href="{{ path('app_logout') }}"
+                               class="bg-white text-indigo-700 px-5 py-2 rounded-xl font-bold shadow-lg hover:bg-indigo-50 hover:scale-105 transition duration-300 whitespace-nowrap text-sm">
+                                Déconnexion
+                            </a>
+
+                        {% else %}
+
+                            <a href="{{ path('app_login') }}"
+                               class="bg-white text-indigo-700 px-5 py-2 rounded-xl font-bold shadow-lg hover:bg-indigo-50 hover:scale-105 transition duration-300 whitespace-nowrap text-sm">
+                                Connexion
+                            </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                <!-- MOBILE / TABLET -->
+                <div class="lg:hidden flex items-center gap-3">
+
+                    {% if app.user %}
+                        <a href="{{ path('app_dashboard') }}"
+                           class="text-sm font-bold bg-white text-indigo-700 px-4 py-2 rounded-xl shadow">
+                            Dashboard
+                        </a>
+
+                        <a href="{{ path('app_messages') }}"
+                            class="text-sm font-bold bg-green-100 text-green-800 px-4 py-2 rounded-xl shadow">
+                            💬
+                        </a>
+
+                        <a href="{{ path('app_notifications') }}"
+                           class="text-sm font-bold bg-yellow-100 text-yellow-800 px-4 py-2 rounded-xl shadow">
+                            🔔
+                        </a>
+
+                        <a href="{{ path('app_settings') }}"
+                           class="text-sm font-bold bg-indigo-100 text-indigo-800 px-4 py-2 rounded-xl shadow">
+                            Paramètres
+                        </a>
+                    {% else %}
+                        <a href="{{ path('app_login') }}"
+                           class="text-sm font-bold bg-white text-indigo-700 px-4 py-2 rounded-xl shadow">
+                            Login
+                        </a>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- OPTIONAL HERO -->
+    {% block hero %}{% endblock %}
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
+
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="mb-4 p-5 rounded-2xl bg-red-100 text-red-700 border border-red-300 shadow font-medium">
+                {{ flash_error }}
+            </div>
+        {% endfor %}
+
+        {% for flash_success in app.flashes('success') %}
+            <div class="mb-4 p-5 rounded-2xl bg-green-100 text-green-700 border border-green-300 shadow font-medium">
+                {{ flash_success }}
+            </div>
+        {% endfor %}
+
+        {% for flash_notice in app.flashes('notice') %}
+            <div class="mb-4 p-5 rounded-2xl bg-blue-100 text-blue-700 border border-blue-300 shadow font-medium">
+                {{ flash_notice }}
+            </div>
+        {% endfor %}
+
+        {% for flash_warning in app.flashes('warning') %}
+            <div class="mb-4 p-5 rounded-2xl bg-yellow-100 text-yellow-700 border border-yellow-300 shadow font-medium">
+                {{ flash_warning }}
+            </div>
+        {% endfor %}
+
+        <div class="animate-fade-in">
+            {% block body %}{% endblock %}
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 text-white py-16 mt-16">
+        <div class="max-w-7xl mx-auto px-6">
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+
+                <div>
+                    <h3 class="font-extrabold text-2xl mb-5 text-indigo-400">
+                        SkillLink 🚀
+                    </h3>
+
+                    <p class="text-slate-300 leading-relaxed text-sm">
+                        La plateforme RH intelligente qui connecte
+                        talents, recruteurs et entreprises
+                        grâce à un matching moderne,
+                        sécurisé et performant.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-lg mb-5 text-indigo-400">
+                        Navigation
+                    </h3>
+
+                    <ul class="space-y-3 text-sm text-slate-300">
+
+                        <li><a href="{{ path('app_home') }}" class="hover:text-white transition">Accueil</a></li>
+
+                        {% if app.user %}
+                            <li><a href="{{ path('app_dashboard') }}" class="hover:text-white transition">Dashboard</a></li>
+                            <li><a href="{{ path('app_notifications') }}" class="hover:text-white transition">Notifications</a></li>
+                            <li><a href="{{ path('app_messages') }}"class="hover:text-white transition">Messagerie</a></li>
+                            <li><a href="{{ path('app_settings') }}" class="hover:text-white transition">Paramètres</a></li>
+                            <li><a href="{{ path('app_logout') }}" class="hover:text-white transition">Déconnexion</a></li>
+                        {% else %}
+                            <li><a href="{{ path('app_register') }}" class="hover:text-white transition">Inscription</a></li>
+                            <li><a href="{{ path('app_login') }}" class="hover:text-white transition">Connexion</a></li>
+                        {% endif %}
+
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-lg mb-5 text-indigo-400">
+                        Stack technique
+                    </h3>
+
+                    <ul class="space-y-3 text-sm text-slate-300">
+                        <li>Symfony 7</li>
+                        <li>API Platform</li>
+                        <li>JWT Security</li>
+                        <li>Tailwind CSS</li>
+                        <li>Docker / CI-CD</li>
+                        <li>MongoDB ODM</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-lg mb-5 text-indigo-400">
+                        Mission
+                    </h3>
+
+                    <p class="text-slate-300 leading-relaxed text-sm">
+                        Répondre aux exigences
+                        du titre CDA RNCP37873
+                        avec une solution SaaS RH
+                        moderne, scalable
+                        et orientée métier.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-400 text-sm">
+
+                <span>
+                    © {{ "now"|date("Y") }} SkillLink — Tous droits réservés.
+                </span>
+
+                <span>
+                    Recrutement intelligent • ATS • Matching IA • SaaS RH
+                </span>
+
+            </div>
+
+        </div>
+    </footer>
+
+</body>
+</html>

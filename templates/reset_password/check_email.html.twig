@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Email envoyé | SkillLink{% endblock %}
+
+{% block body %}
+
+<div class="max-w-5xl mx-auto py-20">
+
+    <section class="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
+
+        <!-- HERO -->
+        <div class="bg-gradient-to-r from-indigo-700 via-purple-700 to-indigo-900 text-white p-12 text-center relative overflow-hidden">
+
+            <div class="relative z-10">
+                <span class="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-6">
+                    Vérification sécurisée
+                </span>
+
+                <h1 class="text-5xl md:text-6xl font-extrabold mb-6">
+                    Vérifiez votre boîte mail 📩
+                </h1>
+
+                <p class="text-xl text-indigo-100 max-w-3xl mx-auto leading-relaxed">
+                    Un email contenant un lien sécurisé
+                    de réinitialisation a été envoyé
+                    à votre adresse si elle est enregistrée.
+                </p>
+            </div>
+
+            <div class="absolute bottom-0 right-0 text-[220px] opacity-10 font-black leading-none select-none hidden lg:block">
+                Mail
+            </div>
+
+        </div>
+
+        <!-- CONTENT -->
+        <div class="p-10 md:p-14">
+
+            <!-- FLASH ERRORS -->
+            {% for flash_error in app.flashes('reset_password_error') %}
+                <div class="mb-8 p-4 rounded-2xl bg-red-100 text-red-700 border border-red-300 font-medium shadow-sm">
+                    {{ flash_error }}
+                </div>
+            {% endfor %}
+
+            <div class="bg-slate-50 rounded-3xl p-8 border border-slate-200 text-center mb-10">
+
+                <div class="text-6xl mb-6">🔐</div>
+
+                <p class="text-lg text-slate-700 leading-relaxed mb-6">
+                    Ce lien expirera dans :
+                </p>
+
+                <div class="inline-block bg-indigo-100 text-indigo-700 px-6 py-3 rounded-2xl font-bold text-xl shadow-sm mb-6">
+                    {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}
+                </div>
+
+                <p class="text-slate-600 leading-relaxed max-w-2xl mx-auto mb-8">
+                    Si vous ne recevez aucun email,
+                    vérifiez votre dossier spam
+                    ou recommencez la procédure.
+                </p>
+
+                <!-- IMPORTANT TEST INFO -->
+                <div class="bg-blue-50 border border-blue-200 rounded-2xl p-6 max-w-3xl mx-auto">
+
+                    <h3 class="text-lg font-bold text-blue-800 mb-3">
+                        📬 Vérification développement
+                    </h3>
+
+                    <p class="text-blue-700 text-sm leading-relaxed mb-4">
+                        Si aucun email n'est reçu, vérifiez :
+                    </p>
+
+                    <ul class="text-sm text-blue-700 space-y-2 text-left inline-block">
+                        <li>✔ Configuration MAILER_DSN</li>
+                        <li>✔ Adresse expéditeur autorisée</li>
+                        <li>✔ Dossier spam / indésirables</li>
+                        <li>✔ Paramètres SMTP Outlook / Gmail</li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="flex flex-col sm:flex-row justify-center gap-5">
+
+                <a href="{{ path('app_forgot_password_request') }}"
+                   class="bg-gradient-to-r from-indigo-700 to-purple-700 hover:from-indigo-800 hover:to-purple-800 text-white px-8 py-4 rounded-xl font-bold shadow-lg transition text-center">
+                    🔄 Réessayer
+                </a>
+
+                <a href="{{ path('app_login') }}"
+                   class="border border-slate-300 hover:bg-slate-100 text-slate-700 px-8 py-4 rounded-xl font-bold transition text-center">
+                    🔐 Retour connexion
+                </a>
+
+            </div>
+
+            <!-- SECURITY NOTICE -->
+            <div class="mt-12 text-center text-xs text-slate-400 leading-relaxed">
+                SkillLink garantit la sécurité
+                de vos données et accès
+                via chiffrement sécurisé,
+                conformité RGPD
+                et architecture professionnelle.
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

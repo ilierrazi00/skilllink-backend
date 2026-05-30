@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if is_granted('ROLE_ADMIN') %}
+        Modifier Candidature | SkillLink
+    {% else %}
+        Mise à jour candidature | SkillLink
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+
+<div class="max-w-7xl mx-auto space-y-10">
+
+    {# ===================================================== #}
+    {# RECRUITER / ADMIN ONLY                               #}
+    {# ===================================================== #}
+    {% if is_granted('ROLE_RECRUITER') or is_granted('ROLE_ADMIN') %}
+
+        <!-- HERO -->
+        <section class="bg-gradient-to-r from-indigo-700 to-purple-700 text-white rounded-3xl shadow-2xl p-10">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+
+                <div>
+
+                    <span class="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-5">
+                        ATS • Workflow recrutement
+                    </span>
+
+                    <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+                        Modifier la Candidature 📊
+                    </h1>
+
+                    <p class="text-lg text-indigo-100 max-w-3xl">
+                        Mettez à jour le suivi candidat,
+                        optimisez le processus de recrutement
+                        et améliorez votre workflow ATS.
+                    </p>
+
+                </div>
+
+                <div class="text-7xl hidden md:block">
+                    🚀
+                </div>
+
+            </div>
+        </section>
+
+        <!-- FORM SECTION -->
+        <section class="bg-white rounded-3xl shadow-2xl p-10 border border-slate-100">
+
+            <div class="text-center mb-10">
+
+                <h2 class="text-3xl font-bold text-slate-800 mb-3">
+                    Mise à jour de la candidature
+                </h2>
+
+                <p class="text-slate-600 text-lg">
+                    Ajustez les informations
+                    pour assurer un suivi professionnel.
+                </p>
+
+            </div>
+
+            <!-- FORM -->
+            <div class="space-y-8">
+                {{ include('application/_form.html.twig', {
+                    'button_label': 'Mettre à jour la candidature'
+                }) }}
+            </div>
+
+        </section>
+
+        <!-- ACTIONS -->
+        <section class="bg-white rounded-3xl shadow-lg p-8 border border-slate-100">
+
+            <div class="flex flex-col md:flex-row flex-wrap gap-4 justify-between items-center">
+
+                <div class="flex flex-wrap gap-4">
+
+                    <a href="{{ path('app_application_show', {'id': application.id}) }}"
+                       class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-8 py-4 rounded-xl font-bold transition">
+                        👁️ Retour au détail
+                    </a>
+
+                    <a href="{{ path('app_application_index') }}"
+                       class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-4 rounded-xl font-bold transition">
+                        ← Retour à la liste
+                    </a>
+
+                </div>
+
+                <!-- DELETE -->
+                <div>
+                    {{ include('application/_delete_form.html.twig') }}
+                </div>
+
+            </div>
+
+        </section>
+
+    {% else %}
+
+        {# ===================================================== #}
+        {# SECURITY FALLBACK                                    #}
+        {# ===================================================== #}
+
+        <section class="bg-white rounded-3xl shadow-xl p-12 text-center border border-slate-100">
+
+            <h1 class="text-4xl font-extrabold text-slate-800 mb-6">
+                Accès non autorisé
+            </h1>
+
+            <p class="text-slate-600 text-lg mb-8">
+                Cette fonctionnalité est réservée aux recruteurs et administrateurs.
+            </p>
+
+            <a href="{{ path('app_dashboard') }}"
+               class="bg-indigo-700 hover:bg-indigo-800 text-white px-8 py-4 rounded-xl font-bold shadow-lg transition">
+                Retour Dashboard
+            </a>
+
+        </section>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

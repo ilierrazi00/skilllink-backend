@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Compétence | SkillLink{% endblock %}
+
+{% block body %}
+
+{% if not (is_granted('ROLE_CANDIDATE') or is_granted('ROLE_ADMIN')) %}
+    <div class="max-w-3xl mx-auto">
+        <section class="bg-white rounded-3xl shadow-xl border border-red-100 p-12 text-center">
+            <h1 class="text-4xl font-extrabold text-red-600 mb-6">
+                Accès refusé 🔒
+            </h1>
+
+            <p class="text-slate-600 text-lg mb-8">
+                Seuls les candidats ou administrateurs peuvent créer une nouvelle compétence.
+            </p>
+
+            <a href="{{ path('app_skill_index') }}"
+               class="bg-indigo-700 hover:bg-indigo-800 text-white px-8 py-4 rounded-xl font-bold transition">
+                ← Retour aux compétences
+            </a>
+        </section>
+    </div>
+{% else %}
+
+<div class="max-w-5xl mx-auto space-y-10">
+
+    <!-- HERO -->
+    <section class="bg-gradient-to-r from-indigo-700 to-purple-700 text-white rounded-3xl shadow-2xl p-10">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+
+            <div>
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+                    Ajouter une Nouvelle Compétence 🛠️
+                </h1>
+
+                <p class="text-lg text-indigo-100 max-w-3xl">
+                    Structurez votre référentiel de compétences,
+                    améliorez le matching candidats/recruteurs
+                    et développez l’intelligence de SkillLink.
+                </p>
+            </div>
+
+            <div class="text-7xl hidden md:block">
+                🚀
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FORM SECTION -->
+    <section class="bg-white rounded-3xl shadow-2xl p-10 border border-slate-100">
+
+        <div class="mb-10 text-center">
+            <h2 class="text-3xl font-bold text-slate-800 mb-3">
+                Création de la compétence
+            </h2>
+
+            <p class="text-slate-600 text-lg">
+                Ajoutez les informations nécessaires
+                pour enrichir la base de compétences.
+            </p>
+        </div>
+
+        <!-- FORM -->
+        <div class="space-y-8">
+            {{ include('skill/_form.html.twig') }}
+        </div>
+
+        <!-- RETURN -->
+        <div class="mt-10 text-center">
+            <a href="{{ path('app_skill_index') }}"
+               class="text-slate-600 hover:text-indigo-700 font-semibold transition text-lg">
+                ← Retour à la liste
+            </a>
+        </div>
+
+    </section>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

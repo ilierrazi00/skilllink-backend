@@ -1,0 +1,255 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entreprises | SkillLink{% endblock %}
+
+{% block body %}
+
+<div class="space-y-12">
+
+    <!-- HERO HEADER -->
+    <section class="bg-gradient-to-r from-indigo-700 via-purple-700 to-indigo-900 text-white rounded-3xl shadow-2xl p-10 md:p-14 relative overflow-hidden">
+
+        <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+
+            <div>
+                <span class="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-5">
+                    {% if is_granted('ROLE_RECRUITER') %}
+                        Espace B2B • Recruteurs
+                    {% else %}
+                        Réseau Entreprises • Consultation
+                    {% endif %}
+                </span>
+
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+                    Gestion des Entreprises 🏢
+                </h1>
+
+                <p class="text-lg text-indigo-100 max-w-3xl leading-relaxed">
+                    {% if is_granted('ROLE_RECRUITER') %}
+                        Administrez vos entreprises partenaires,
+                        leurs recruteurs, leurs offres d’emploi
+                        et leur activité RH dans SkillLink.
+                    {% else %}
+                        Explorez les entreprises partenaires,
+                        découvrez leurs opportunités
+                        et développez votre réseau professionnel.
+                    {% endif %}
+                </p>
+            </div>
+
+            {% if is_granted('ROLE_RECRUITER') %}
+                <a href="{{ path('app_company_new') }}"
+                   class="bg-white text-indigo-700 px-8 py-4 rounded-xl font-bold shadow-lg hover:bg-indigo-50 hover:scale-105 transition">
+                    + Nouvelle Entreprise
+                </a>
+            {% endif %}
+
+        </div>
+
+        <div class="absolute bottom-0 right-0 text-[220px] opacity-10 font-black leading-none select-none hidden lg:block">
+            B2B
+        </div>
+
+    </section>
+
+    <!-- KPI -->
+    <section class="grid grid-cols-1 md:grid-cols-4 gap-6">
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-slate-100 hover:shadow-xl transition">
+            <h2 class="text-slate-500 text-sm uppercase font-semibold mb-2">Total Entreprises</h2>
+            <p class="text-3xl font-bold text-indigo-700">{{ companies|length }}</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-slate-100 hover:shadow-xl transition">
+            <h2 class="text-slate-500 text-sm uppercase font-semibold mb-2">Recrutement</h2>
+            <p class="text-3xl font-bold text-purple-700">Actif</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-slate-100 hover:shadow-xl transition">
+            <h2 class="text-slate-500 text-sm uppercase font-semibold mb-2">Offres</h2>
+            <p class="text-3xl font-bold text-green-600">RH</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-slate-100 hover:shadow-xl transition">
+            <h2 class="text-slate-500 text-sm uppercase font-semibold mb-2">Réseau</h2>
+            <p class="text-3xl font-bold text-pink-600">SkillLink</p>
+        </div>
+
+    </section>
+
+    <!-- COMPANY DIRECTORY -->
+    <section class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100">
+
+        <div class="flex flex-col md:flex-row justify-between items-center px-8 py-6 border-b border-slate-100 bg-slate-50 gap-4">
+
+            <div>
+                <h2 class="text-2xl font-bold text-slate-800">
+                    Répertoire des entreprises
+                </h2>
+
+                <p class="text-slate-500 text-sm">
+                    Vue centralisée des organisations partenaires
+                </p>
+            </div>
+
+            <div class="flex gap-3">
+                <a href="{{ path('app_job_offer_index') }}"
+                   class="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-indigo-200 transition">
+                    Offres
+                </a>
+
+                <a href="{{ path('app_application_index') }}"
+                   class="bg-purple-100 text-purple-700 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-purple-200 transition">
+                    Candidatures
+                </a>
+            </div>
+
+        </div>
+
+        <div class="overflow-x-auto">
+
+            <table class="w-full text-left min-w-[1200px]">
+
+                <thead class="bg-slate-100 text-slate-700 uppercase text-sm tracking-wide">
+                    <tr>
+                        <th class="px-6 py-5">ID</th>
+                        <th class="px-6 py-5">Entreprise</th>
+                        <th class="px-6 py-5">Secteur</th>
+                        <th class="px-6 py-5">Taille</th>
+                        <th class="px-6 py-5">Localisation</th>
+                        <th class="px-6 py-5">Statut</th>
+                        <th class="px-6 py-5">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-slate-200">
+
+                    {% for company in companies %}
+                        <tr class="hover:bg-slate-50 transition">
+
+                            <td class="px-6 py-5 font-semibold text-slate-700">
+                                #{{ company.id }}
+                            </td>
+
+                            <td class="px-6 py-5">
+                                <div class="font-bold text-slate-800 text-lg">
+                                    {{ company.nomEntreprise }}
+                                </div>
+                                <div class="text-sm text-slate-500">
+                                    Organisation partenaire
+                                </div>
+                            </td>
+
+                            <td class="px-6 py-5">
+                                {% if company.secteur %}
+                                    <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                        {{ company.secteur }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-slate-400 italic">Non défini</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="px-6 py-5">
+                                {% if company.taille %}
+                                    <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                        {{ company.taille }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-slate-400 italic">Non définie</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="px-6 py-5 text-slate-600">
+                                {{ company.localisation ?: 'Non renseignée' }}
+                            </td>
+
+                            <td class="px-6 py-5">
+                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td class="px-6 py-5">
+                                <div class="flex flex-wrap gap-3">
+
+                                    <a href="{{ path('app_company_show', {'id': company.id}) }}"
+                                       class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow">
+                                        Voir
+                                    </a>
+
+                                    {% if is_granted('ROLE_RECRUITER') %}
+                                        <a href="{{ path('app_company_edit', {'id': company.id}) }}"
+                                           class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 py-2 rounded-lg text-sm font-semibold shadow">
+                                            Modifier
+                                        </a>
+                                    {% endif %}
+
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    {% else %}
+
+                        <tr>
+                            <td colspan="7" class="px-6 py-12 text-center text-slate-500 text-lg">
+                                Aucune entreprise trouvée.
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <!-- CTA -->
+    <section class="bg-gradient-to-r from-slate-900 to-indigo-900 text-white rounded-3xl shadow-2xl p-12 text-center">
+
+        <h2 class="text-4xl font-extrabold mb-5">
+            {% if is_granted('ROLE_RECRUITER') %}
+                Développez votre réseau d’entreprises
+            {% else %}
+                Explorez les entreprises SkillLink
+            {% endif %}
+        </h2>
+
+        <p class="text-slate-300 text-lg max-w-3xl mx-auto mb-8">
+            {% if is_granted('ROLE_RECRUITER') %}
+                Centralisez vos organisations,
+                gérez vos recruteurs,
+                publiez vos offres
+                et pilotez votre activité RH.
+            {% else %}
+                Consultez les entreprises,
+                découvrez leurs opportunités
+                et développez votre avenir professionnel.
+            {% endif %}
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+
+            {% if is_granted('ROLE_RECRUITER') %}
+                <a href="{{ path('app_company_new') }}"
+                   class="bg-indigo-600 hover:bg-indigo-700 px-8 py-4 rounded-xl font-bold shadow-lg transition">
+                    + Ajouter une entreprise
+                </a>
+            {% endif %}
+
+            <a href="{{ path('app_dashboard') }}"
+               class="border border-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-indigo-900 transition">
+                Retour Dashboard
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

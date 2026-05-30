@@ -1,0 +1,304 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profils Candidats | SkillLink{% endblock %}
+
+{% block body %}
+
+<div class="space-y-12">
+
+    <!-- ===================================================== -->
+    <!-- HERO HEADER -->
+    <!-- ===================================================== -->
+    <section class="bg-gradient-to-r from-indigo-700 via-purple-700 to-indigo-900 text-white rounded-3xl shadow-2xl p-10 md:p-14 relative overflow-hidden">
+
+        <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+
+            <div>
+
+                <span class="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-5">
+                    {% if is_granted('ROLE_RECRUITER') or is_granted('ROLE_ADMIN') %}
+                        Gestion des talents
+                    {% else %}
+                        Mon profil professionnel
+                    {% endif %}
+                </span>
+
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+                    {% if is_granted('ROLE_RECRUITER') or is_granted('ROLE_ADMIN') %}
+                        Profils Candidats 👤
+                    {% else %}
+                        Mon Profil Candidat 👤
+                    {% endif %}
+                </h1>
+
+                <p class="text-indigo-100 text-lg max-w-3xl leading-relaxed">
+                    {% if is_granted('ROLE_RECRUITER') or is_granted('ROLE_ADMIN') %}
+                        Gérez efficacement les profils candidats,
+                        leurs compétences,
+                        disponibilités
+                        et parcours professionnels
+                        dans un environnement RH moderne.
+                    {% else %}
+                        Gérez votre profil,
+                        vos compétences,
+                        votre visibilité
+                        et optimisez votre employabilité.
+                    {% endif %}
+                </p>
+
+            </div>
+
+            {% if is_granted('ROLE_CANDIDATE') or is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_candidate_profile_new') }}"
+                   class="bg-white text-indigo-700 px-8 py-4 rounded-xl font-bold shadow-lg hover:bg-indigo-50 hover:scale-105 transition">
+                    + Nouveau Profil
+                </a>
+            {% endif %}
+
+        </div>
+
+        <div class="absolute bottom-0 right-0 text-[220px] opacity-10 font-black leading-none select-none hidden lg:block">
+            Talent
+        </div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- KPI -->
+    <!-- ===================================================== -->
+    <section class="grid grid-cols-1 md:grid-cols-4 gap-6">
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-slate-100 hover:shadow-xl transition">
+            <h2 class="text-slate-500 text-sm uppercase font-semibold mb-2">
+                Total Profils
+            </h2>
+            <p class="text-3xl font-bold text-indigo-700">
+                {{ candidate_profiles|length }}
+            </p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-slate-100 hover:shadow-xl transition">
+            <h2 class="text-slate-500 text-sm uppercase font-semibold mb-2">
+                Disponibilité
+            </h2>
+            <p class="text-3xl font-bold text-green-600">
+                {{ candidate_profiles|filter(profile => profile.disponibilite)|length }}
+            </p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-slate-100 hover:shadow-xl transition">
+            <h2 class="text-slate-500 text-sm uppercase font-semibold mb-2">
+                Expérience
+            </h2>
+            <p class="text-3xl font-bold text-purple-600">
+                RH+
+            </p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-slate-100 hover:shadow-xl transition">
+            <h2 class="text-slate-500 text-sm uppercase font-semibold mb-2">
+                Matching
+            </h2>
+            <p class="text-3xl font-bold text-pink-600">
+                IA
+            </p>
+        </div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- TALENT DIRECTORY -->
+    <!-- ===================================================== -->
+    <section class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100">
+
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row justify-between items-center px-8 py-6 border-b border-slate-100 bg-slate-50 gap-4">
+
+            <div>
+                <h2 class="text-2xl font-bold text-slate-800">
+                    {% if is_granted('ROLE_RECRUITER') or is_granted('ROLE_ADMIN') %}
+                        Répertoire des talents
+                    {% else %}
+                        Mon profil
+                    {% endif %}
+                </h2>
+
+                <p class="text-slate-500 text-sm">
+                    {% if is_granted('ROLE_RECRUITER') or is_granted('ROLE_ADMIN') %}
+                        Vue centralisée des profils candidats
+                    {% else %}
+                        Gestion personnelle de votre profil
+                    {% endif %}
+                </p>
+            </div>
+
+            <div class="flex gap-3">
+                <a href="{{ path('app_skill_index') }}"
+                   class="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-indigo-200 transition">
+                    Compétences
+                </a>
+
+                <a href="{{ path('app_job_offer_index') }}"
+                   class="bg-purple-100 text-purple-700 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-purple-200 transition">
+                    Offres
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Table -->
+        <div class="overflow-x-auto">
+
+            <table class="w-full text-left min-w-[1100px]">
+
+                <thead class="bg-slate-100 text-slate-700 uppercase text-sm tracking-wide">
+                    <tr>
+                        <th class="px-6 py-5">ID</th>
+                        <th class="px-6 py-5">Profil</th>
+                        <th class="px-6 py-5">Localisation</th>
+                        <th class="px-6 py-5">Expérience</th>
+                        <th class="px-6 py-5">Disponibilité</th>
+                        <th class="px-6 py-5">Matching</th>
+                        <th class="px-6 py-5">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-slate-200">
+
+                    {% for candidate_profile in candidate_profiles %}
+                        <tr class="hover:bg-slate-50 transition">
+
+                            <!-- ID -->
+                            <td class="px-6 py-5 font-semibold text-slate-700">
+                                #{{ candidate_profile.id }}
+                            </td>
+
+                            <!-- Profile -->
+                            <td class="px-6 py-5">
+                                <div class="font-bold text-slate-800 text-lg">
+                                    {{ candidate_profile.titreProfil }}
+                                </div>
+
+                                <div class="text-sm text-slate-500">
+                                    {{ candidate_profile.user.prenom ?? '' }} {{ candidate_profile.user.nom ?? '' }}
+                                </div>
+                            </td>
+
+                            <!-- Localisation -->
+                            <td class="px-6 py-5 text-slate-600">
+                                {{ candidate_profile.localisation }}
+                            </td>
+
+                            <!-- Experience -->
+                            <td class="px-6 py-5">
+                                <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                    {{ candidate_profile.experienceAnnees }} ans
+                                </span>
+                            </td>
+
+                            <!-- Disponibilité -->
+                            <td class="px-6 py-5">
+                                {% if candidate_profile.disponibilite %}
+                                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold">
+                                        Disponible
+                                    </span>
+                                {% else %}
+                                    <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-bold">
+                                        Indisponible
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <!-- Matching -->
+                            <td class="px-6 py-5">
+                                <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-bold">
+                                    Smart
+                                </span>
+                            </td>
+
+                            <!-- Actions -->
+                            <td class="px-6 py-5">
+                                <div class="flex flex-wrap gap-3">
+
+                                    <a href="{{ path('app_candidate_profile_show', {'id': candidate_profile.id}) }}"
+                                       class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow">
+                                        Voir
+                                    </a>
+
+                                    {% if candidate_profile.user == app.user or is_granted('ROLE_ADMIN') %}
+                                        <a href="{{ path('app_candidate_profile_edit', {'id': candidate_profile.id}) }}"
+                                           class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 py-2 rounded-lg text-sm font-semibold shadow">
+                                            Modifier
+                                        </a>
+                                    {% endif %}
+
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    {% else %}
+
+                        <tr>
+                            <td colspan="7" class="px-6 py-12 text-center text-slate-500 text-lg">
+                                Aucun profil candidat trouvé.
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- CTA -->
+    <!-- ===================================================== -->
+    <section class="bg-gradient-to-r from-slate-900 to-indigo-900 text-white rounded-3xl shadow-2xl p-12 text-center">
+
+        <h2 class="text-4xl font-extrabold mb-5">
+            {% if is_granted('ROLE_RECRUITER') or is_granted('ROLE_ADMIN') %}
+                Développez votre réseau de talents
+            {% else %}
+                Optimisez votre profil professionnel
+            {% endif %}
+        </h2>
+
+        <p class="text-slate-300 text-lg max-w-3xl mx-auto mb-8">
+            {% if is_granted('ROLE_RECRUITER') or is_granted('ROLE_ADMIN') %}
+                Centralisez vos candidats,
+                améliorez votre matching
+                et optimisez vos recrutements
+                grâce à SkillLink.
+            {% else %}
+                Valorisez vos compétences,
+                développez votre visibilité
+                et améliorez vos opportunités professionnelles.
+            {% endif %}
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+
+            {% if is_granted('ROLE_CANDIDATE') or is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_candidate_profile_new') }}"
+                   class="bg-indigo-600 hover:bg-indigo-700 px-8 py-4 rounded-xl font-bold shadow-lg transition">
+                    + Ajouter un profil
+                </a>
+            {% endif %}
+
+            <a href="{{ path('app_dashboard') }}"
+               class="border border-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-indigo-900 transition">
+                Retour Dashboard
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

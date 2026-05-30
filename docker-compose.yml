@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+
+  skilllink-app:
+    build: .
+    container_name: skilllink-app
+
+    ports:
+      - "8000:8000"
+
+    depends_on:
+      - mysql
+
+    environment:
+      DATABASE_URL: "mysql://root:root@mysql:3306/skilllink?serverVersion=8.0&charset=utf8mb4"
+
+  mysql:
+    image: mysql:8.0
+
+    container_name: skilllink-mysql
+
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: skilllink
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+
+    container_name: skilllink-phpmyadmin
+
+    restart: always
+
+    depends_on:
+      - mysql
+
+    ports:
+      - "8080:80"
+
+    environment:
+      PMA_HOST: mysql
+
+volumes:
+  mysql_data:

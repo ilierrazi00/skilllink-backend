@@ -1,0 +1,406 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - SkillLink{% endblock %}
+
+{% block body %}
+
+{% set currentUser = app.user %}
+{% set roleType = currentUser ? currentUser.roleType : null %}
+
+<div class="space-y-28">
+
+    <!-- ===================================================== -->
+    <!-- HERO SECTION -->
+    <!-- ===================================================== -->
+    <section class="relative bg-gradient-to-r from-indigo-700 via-purple-700 to-indigo-900 text-white rounded-3xl shadow-2xl overflow-hidden">
+
+        <div class="absolute inset-0 bg-black/10"></div>
+
+        <div class="relative z-10 px-8 py-24 md:px-20 lg:px-28">
+
+            <div class="max-w-4xl">
+
+                <span class="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-6">
+                    Plateforme RH intelligente • CDA RNCP37873
+                </span>
+
+                <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-8">
+                    Réinventez le recrutement avec
+                    <span class="text-indigo-200">SkillLink 🚀</span>
+                </h1>
+
+                <p class="text-xl md:text-2xl text-indigo-100 leading-relaxed mb-10 max-w-3xl">
+                    Une plateforme nouvelle génération qui connecte
+                    candidats, recruteurs et entreprises grâce
+                    à un matching avancé basé sur les compétences,
+                    les opportunités et la performance.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-5">
+
+                    {% if not app.user %}
+                        <a href="{{ path('app_register') }}"
+                           class="bg-white text-indigo-700 px-10 py-5 rounded-2xl text-lg font-bold shadow-xl hover:bg-indigo-50 hover:scale-105 transition text-center">
+                            🚀 Commencer maintenant
+                        </a>
+
+                        <a href="{{ path('app_login') }}"
+                           class="border-2 border-white text-white px-10 py-5 rounded-2xl text-lg font-bold hover:bg-white hover:text-indigo-700 transition text-center">
+                            🔐 Se connecter
+                        </a>
+                    {% else %}
+                        <a href="{{ path('app_dashboard') }}"
+                           class="bg-white text-indigo-700 px-10 py-5 rounded-2xl text-lg font-bold shadow-xl hover:bg-indigo-50 hover:scale-105 transition text-center">
+                            📊 Accéder à mon dashboard
+                        </a>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Decorative text -->
+        <div class="absolute top-0 right-0 opacity-10 text-[260px] font-black leading-none select-none hidden lg:block">
+            Skill
+        </div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- TRUST METRICS -->
+    <!-- ===================================================== -->
+    <section class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+        <div class="bg-white rounded-3xl shadow-lg p-8 text-center border border-slate-100 hover:shadow-xl transition">
+            <p class="text-4xl font-extrabold text-indigo-700">100%</p>
+            <p class="text-slate-600 font-medium mt-2">Digital RH</p>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-lg p-8 text-center border border-slate-100 hover:shadow-xl transition">
+            <p class="text-4xl font-extrabold text-purple-700">Smart</p>
+            <p class="text-slate-600 font-medium mt-2">Matching IA</p>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-lg p-8 text-center border border-slate-100 hover:shadow-xl transition">
+            <p class="text-4xl font-extrabold text-green-600">ATS</p>
+            <p class="text-slate-600 font-medium mt-2">Workflow complet</p>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-lg p-8 text-center border border-slate-100 hover:shadow-xl transition">
+            <p class="text-4xl font-extrabold text-pink-600">SaaS</p>
+            <p class="text-slate-600 font-medium mt-2">Plateforme moderne</p>
+        </div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- ROLE BASED QUICK ACCESS -->
+    <!-- ===================================================== -->
+    {% if app.user %}
+        <section class="bg-white rounded-3xl shadow-2xl p-12 border border-slate-100">
+
+            <div class="text-center mb-14">
+                <h2 class="text-4xl font-extrabold text-slate-800 mb-4">
+                    Votre espace SkillLink
+                </h2>
+
+                <p class="text-slate-600 text-lg">
+                    Accès rapide selon votre profil utilisateur.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+                {% if roleType == 'candidate' %}
+                    <a href="{{ path('app_candidate_profile_index') }}"
+                       class="bg-slate-50 rounded-3xl p-8 hover:shadow-xl hover:-translate-y-2 transition text-center border border-slate-100">
+                        <div class="text-4xl mb-4">👤</div>
+                        <h3 class="font-bold text-xl text-indigo-700 mb-2">Mon Profil</h3>
+                        <p class="text-slate-600">Gérez votre identité professionnelle</p>
+                    </a>
+
+                    <a href="{{ path('app_skill_index') }}"
+                       class="bg-slate-50 rounded-3xl p-8 hover:shadow-xl hover:-translate-y-2 transition text-center border border-slate-100">
+                        <div class="text-4xl mb-4">🛠️</div>
+                        <h3 class="font-bold text-xl text-indigo-700 mb-2">Compétences</h3>
+                        <p class="text-slate-600">Valorisez vos expertises</p>
+                    </a>
+
+                    <a href="{{ path('app_job_offer_index') }}"
+                       class="bg-slate-50 rounded-3xl p-8 hover:shadow-xl hover:-translate-y-2 transition text-center border border-slate-100">
+                        <div class="text-4xl mb-4">💼</div>
+                        <h3 class="font-bold text-xl text-indigo-700 mb-2">Offres</h3>
+                        <p class="text-slate-600">Explorez les opportunités</p>
+                    </a>
+
+                    <a href="{{ path('app_application_index') }}"
+                       class="bg-slate-50 rounded-3xl p-8 hover:shadow-xl hover:-translate-y-2 transition text-center border border-slate-100">
+                        <div class="text-4xl mb-4">📊</div>
+                        <h3 class="font-bold text-xl text-indigo-700 mb-2">Candidatures</h3>
+                        <p class="text-slate-600">Suivez votre évolution</p>
+                    </a>
+
+                {% elseif roleType == 'recruiter' %}
+                    <a href="{{ path('app_company_index') }}"
+                       class="bg-slate-50 rounded-3xl p-8 hover:shadow-xl hover:-translate-y-2 transition text-center border border-slate-100">
+                        <div class="text-4xl mb-4">🏢</div>
+                        <h3 class="font-bold text-xl text-indigo-700 mb-2">Entreprise</h3>
+                        <p class="text-slate-600">Pilotez votre structure</p>
+                    </a>
+
+                    <a href="{{ path('app_job_offer_index') }}"
+                       class="bg-slate-50 rounded-3xl p-8 hover:shadow-xl hover:-translate-y-2 transition text-center border border-slate-100">
+                        <div class="text-4xl mb-4">💼</div>
+                        <h3 class="font-bold text-xl text-indigo-700 mb-2">Offres</h3>
+                        <p class="text-slate-600">Publiez vos recrutements</p>
+                    </a>
+
+                    <a href="{{ path('app_application_index') }}"
+                       class="bg-slate-50 rounded-3xl p-8 hover:shadow-xl hover:-translate-y-2 transition text-center border border-slate-100">
+                        <div class="text-4xl mb-4">📥</div>
+                        <h3 class="font-bold text-xl text-indigo-700 mb-2">Candidatures</h3>
+                        <p class="text-slate-600">Analysez vos talents</p>
+                    </a>
+
+                    <a href="{{ path('app_dashboard') }}"
+                       class="bg-slate-50 rounded-3xl p-8 hover:shadow-xl hover:-translate-y-2 transition text-center border border-slate-100">
+                        <div class="text-4xl mb-4">📈</div>
+                        <h3 class="font-bold text-xl text-indigo-700 mb-2">Dashboard</h3>
+                        <p class="text-slate-600">KPIs RH</p>
+                    </a>
+
+                {% elseif roleType == 'admin' %}
+                    <a href="{{ path('app_dashboard') }}"
+                       class="bg-slate-50 rounded-3xl p-8 hover:shadow-xl hover:-translate-y-2 transition text-center border border-slate-100 md:col-span-4">
+                        <div class="text-5xl mb-4">⚙️</div>
+                        <h3 class="font-bold text-2xl text-indigo-700 mb-2">Administration complète</h3>
+                        <p class="text-slate-600">Supervisez l’intégralité de la plateforme SkillLink</p>
+                    </a>
+                {% endif %}
+
+            </div>
+
+        </section>
+    {% endif %}
+
+    <!-- ===================================================== -->
+    <!-- FEATURES -->
+    <!-- ===================================================== -->
+    <section>
+
+        <div class="text-center mb-20">
+            <h2 class="text-5xl font-extrabold text-slate-800 mb-6">
+                Pourquoi choisir SkillLink ?
+            </h2>
+
+            <p class="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
+                Une solution RH moderne conçue pour fluidifier
+                les recrutements, valoriser les talents
+                et accélérer la croissance des entreprises.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+            <div class="bg-white rounded-3xl shadow-xl p-10 hover:shadow-2xl hover:-translate-y-3 transition border border-slate-100">
+                <div class="text-5xl mb-6">🎯</div>
+
+                <h3 class="text-2xl font-bold text-indigo-700 mb-4">
+                    Matching intelligent
+                </h3>
+
+                <p class="text-slate-600 text-lg leading-relaxed">
+                    Associez automatiquement
+                    les meilleures compétences
+                    aux meilleures opportunités.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-xl p-10 hover:shadow-2xl hover:-translate-y-3 transition border border-slate-100">
+                <div class="text-5xl mb-6">🏢</div>
+
+                <h3 class="text-2xl font-bold text-purple-700 mb-4">
+                    Entreprises & Recruteurs
+                </h3>
+
+                <p class="text-slate-600 text-lg leading-relaxed">
+                    Publiez vos offres,
+                    centralisez vos candidatures
+                    et optimisez vos recrutements.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-xl p-10 hover:shadow-2xl hover:-translate-y-3 transition border border-slate-100">
+                <div class="text-5xl mb-6">👤</div>
+
+                <h3 class="text-2xl font-bold text-pink-700 mb-4">
+                    Candidats
+                </h3>
+
+                <p class="text-slate-600 text-lg leading-relaxed">
+                    Développez votre carrière,
+                    valorisez votre profil
+                    et ciblez les meilleures offres.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- SECURITY / TECH STACK -->
+    <!-- ===================================================== -->
+    <section class="bg-white rounded-3xl shadow-2xl p-12 border border-slate-100">
+
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-extrabold text-slate-800 mb-4">
+                Une plateforme sécurisée & performante
+            </h2>
+
+            <p class="text-slate-600 text-lg max-w-3xl mx-auto">
+                Développée avec Symfony, API Platform,
+                JWT, RBAC, Tailwind, Docker et DevOps moderne.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+
+            <div class="p-6 rounded-2xl bg-slate-50">
+                <div class="text-4xl mb-4">🔐</div>
+                <h3 class="font-bold text-lg mb-2">Sécurité</h3>
+                <p class="text-slate-600 text-sm">JWT • RBAC • Hash sécurisé</p>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-slate-50">
+                <div class="text-4xl mb-4">⚙️</div>
+                <h3 class="font-bold text-lg mb-2">API</h3>
+                <p class="text-slate-600 text-sm">API Platform • REST</p>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-slate-50">
+                <div class="text-4xl mb-4">📱</div>
+                <h3 class="font-bold text-lg mb-2">Responsive</h3>
+                <p class="text-slate-600 text-sm">PWA • Mobile-first</p>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-slate-50">
+                <div class="text-4xl mb-4">🚀</div>
+                <h3 class="font-bold text-lg mb-2">Déploiement</h3>
+                <p class="text-slate-600 text-sm">Docker • CI/CD • Railway</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- PROCESS -->
+    <!-- ===================================================== -->
+    <section class="bg-gradient-to-br from-slate-50 to-white rounded-3xl shadow-xl p-12">
+
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-extrabold text-slate-800 mb-4">
+                Comment ça fonctionne ?
+            </h2>
+
+            <p class="text-slate-600 text-lg">
+                Une expérience simple, fluide et performante.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+            <div class="text-center">
+                <div class="w-20 h-20 mx-auto bg-indigo-700 text-white rounded-full flex items-center justify-center text-3xl font-bold mb-6 shadow-lg">
+                    1
+                </div>
+
+                <h3 class="text-xl font-bold mb-3 text-slate-800">
+                    Créez votre profil
+                </h3>
+
+                <p class="text-slate-600">
+                    Candidat ou recruteur,
+                    personnalisez votre espace.
+                </p>
+            </div>
+
+            <div class="text-center">
+                <div class="w-20 h-20 mx-auto bg-purple-700 text-white rounded-full flex items-center justify-center text-3xl font-bold mb-6 shadow-lg">
+                    2
+                </div>
+
+                <h3 class="text-xl font-bold mb-3 text-slate-800">
+                    Publiez ou candidatez
+                </h3>
+
+                <p class="text-slate-600">
+                    Offres, candidatures
+                    et compétences centralisées.
+                </p>
+            </div>
+
+            <div class="text-center">
+                <div class="w-20 h-20 mx-auto bg-pink-700 text-white rounded-full flex items-center justify-center text-3xl font-bold mb-6 shadow-lg">
+                    3
+                </div>
+
+                <h3 class="text-xl font-bold mb-3 text-slate-800">
+                    Développez votre réseau
+                </h3>
+
+                <p class="text-slate-600">
+                    Connectez talents
+                    et opportunités.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- FINAL CTA -->
+    <!-- ===================================================== -->
+    <section class="text-center bg-gradient-to-r from-slate-900 via-indigo-900 to-purple-900 text-white rounded-3xl shadow-2xl p-16">
+
+        <h2 class="text-4xl md:text-5xl font-extrabold mb-6">
+            Rejoignez l’avenir du recrutement
+        </h2>
+
+        <p class="text-xl text-slate-300 max-w-3xl mx-auto mb-10 leading-relaxed">
+            SkillLink transforme
+            la recherche d’emploi,
+            la gestion RH
+            et le développement des talents.
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-5">
+
+            {% if not app.user %}
+                <a href="{{ path('app_register') }}"
+                   class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-12 py-5 rounded-2xl text-xl font-bold shadow-xl transition">
+                    🚀 Créer un compte
+                </a>
+
+                <a href="{{ path('app_login') }}"
+                   class="inline-block border-2 border-white hover:bg-white hover:text-indigo-800 text-white px-12 py-5 rounded-2xl text-xl font-bold transition">
+                    🔐 Connexion
+                </a>
+            {% else %}
+                <a href="{{ path('app_dashboard') }}"
+                   class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-12 py-5 rounded-2xl text-xl font-bold shadow-xl transition">
+                    📊 Accéder au dashboard
+                </a>
+            {% endif %}
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

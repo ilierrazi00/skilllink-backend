@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Compétence | SkillLink{% endblock %}
+
+{% block body %}
+
+{% if not (is_granted('ROLE_CANDIDATE') or is_granted('ROLE_ADMIN')) %}
+    <div class="max-w-3xl mx-auto">
+        <section class="bg-white rounded-3xl shadow-xl border border-red-100 p-12 text-center">
+            <h1 class="text-4xl font-extrabold text-red-600 mb-6">
+                Accès refusé 🔒
+            </h1>
+
+            <p class="text-slate-600 text-lg mb-8">
+                Vous n’avez pas les autorisations nécessaires pour modifier cette compétence.
+            </p>
+
+            <a href="{{ path('app_skill_index') }}"
+               class="bg-indigo-700 hover:bg-indigo-800 text-white px-8 py-4 rounded-xl font-bold transition">
+                ← Retour aux compétences
+            </a>
+        </section>
+    </div>
+{% else %}
+
+<div class="max-w-6xl mx-auto space-y-10">
+
+    <!-- HERO -->
+    <section class="bg-gradient-to-r from-indigo-700 to-purple-700 text-white rounded-3xl shadow-2xl p-10">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+
+            <div>
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+                    Modifier la Compétence ✏️
+                </h1>
+
+                <p class="text-lg text-indigo-100 max-w-3xl">
+                    Mettez à jour cette compétence pour maintenir
+                    une base cohérente, performante et optimisée
+                    pour le matching SkillLink.
+                </p>
+            </div>
+
+            <div class="text-7xl hidden md:block">
+                🚀
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FORM -->
+    <section class="bg-white rounded-3xl shadow-2xl p-10 border border-slate-100">
+
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-bold text-slate-800 mb-3">
+                Mise à jour de la compétence
+            </h2>
+
+            <p class="text-slate-600 text-lg">
+                Actualisez les informations pour améliorer
+                l’organisation des compétences.
+            </p>
+        </div>
+
+        <div class="space-y-8">
+            {{ include('skill/_form.html.twig', {
+                'button_label': 'Mettre à jour la compétence'
+            }) }}
+        </div>
+
+    </section>
+
+    <!-- ACTIONS -->
+    <section class="bg-white rounded-3xl shadow-lg p-8 border border-slate-100">
+
+        <div class="flex flex-col md:flex-row flex-wrap gap-4 justify-between items-center">
+
+            <div class="flex flex-wrap gap-4">
+
+                <a href="{{ path('app_skill_show', {'id': skill.id}) }}"
+                   class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-8 py-4 rounded-xl font-bold transition">
+                    👁️ Retour au détail
+                </a>
+
+                <a href="{{ path('app_skill_index') }}"
+                   class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-4 rounded-xl font-bold transition">
+                    ← Retour à la liste
+                </a>
+
+            </div>
+
+            <!-- DELETE -->
+            {% if is_granted('ROLE_ADMIN') %}
+                <div>
+                    {{ include('skill/_delete_form.html.twig') }}
+                </div>
+            {% endif %}
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

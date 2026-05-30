@@ -1,0 +1,312 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard | SkillLink{% endblock %}
+
+{% block body %}
+
+{% set currentUser = app.user %}
+{% set roleType = currentUser ? currentUser.roleType : null %}
+
+<div class="space-y-14">
+
+    <!-- HERO -->
+    <section class="bg-gradient-to-r from-indigo-700 via-purple-700 to-indigo-900 text-white rounded-3xl shadow-2xl p-10 md:p-14 relative overflow-hidden">
+
+        <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+
+            <div>
+
+                <span class="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-5">
+                    Tableau de bord stratégique
+                </span>
+
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+                    Bonjour {% if currentUser and currentUser.prenom %}{{ currentUser.prenom }}{% else %}Utilisateur{% endif %} 👋
+                </h1>
+
+                <p class="text-lg text-indigo-100 max-w-3xl leading-relaxed">
+                    Pilotez vos performances,
+                    vos recrutements,
+                    vos candidatures,
+                    vos opportunités
+                    et votre croissance professionnelle
+                    depuis votre espace SkillLink.
+                </p>
+
+                <div class="mt-6 flex flex-wrap gap-4">
+
+                    <span class="inline-block bg-white/20 backdrop-blur-md px-5 py-2 rounded-full text-sm font-semibold border border-white/30">
+                        Rôle : {{ roleType ? roleType|capitalize : 'Visiteur' }}
+                    </span>
+
+                    <span class="inline-block bg-green-500/20 text-green-100 px-5 py-2 rounded-full text-sm font-semibold border border-green-300/30">
+                        Plateforme sécurisée
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="hidden md:block text-8xl opacity-90">
+                📈
+            </div>
+
+        </div>
+
+        <div class="absolute bottom-0 right-0 text-[220px] opacity-10 font-black leading-none select-none hidden lg:block">
+            ATS
+        </div>
+
+    </section>
+
+    <!-- ADMIN / RECRUITER KPI -->
+    {% if isAdmin or isRecruiter %}
+
+        <section>
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                <h2 class="text-3xl font-bold text-slate-800">
+                    KPIs plateforme
+                </h2>
+
+                <span class="text-sm text-slate-500 font-medium">
+                    Vue analytique décisionnelle
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+
+                {% if isAdmin %}
+                    <div class="bg-white rounded-3xl shadow-lg p-8 border border-slate-100 hover:shadow-2xl transition">
+                        <p class="text-slate-500 text-sm uppercase font-semibold">Candidats</p>
+                        <h3 class="text-4xl font-extrabold text-indigo-700 mt-3">
+                            {{ totalCandidates }}
+                        </h3>
+                    </div>
+                {% endif %}
+
+                <div class="bg-white rounded-3xl shadow-lg p-8 border border-slate-100 hover:shadow-2xl transition">
+                    <p class="text-slate-500 text-sm uppercase font-semibold">Entreprises</p>
+                    <h3 class="text-4xl font-extrabold text-purple-700 mt-3">
+                        {{ totalCompanies }}
+                    </h3>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-lg p-8 border border-slate-100 hover:shadow-2xl transition">
+                    <p class="text-slate-500 text-sm uppercase font-semibold">Offres</p>
+                    <h3 class="text-4xl font-extrabold text-green-600 mt-3">
+                        {{ totalJobOffers }}
+                    </h3>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-lg p-8 border border-slate-100 hover:shadow-2xl transition">
+                    <p class="text-slate-500 text-sm uppercase font-semibold">Candidatures</p>
+                    <h3 class="text-4xl font-extrabold text-orange-500 mt-3">
+                        {{ totalApplications }}
+                    </h3>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-lg p-8 border border-slate-100 hover:shadow-2xl transition">
+                    <p class="text-slate-500 text-sm uppercase font-semibold">Matching moyen</p>
+                    <h3 class="text-4xl font-extrabold text-pink-600 mt-3">
+                        {{ averageMatchScore }}%
+                    </h3>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- PERFORMANCE -->
+        <section>
+            <h2 class="text-3xl font-bold text-slate-800 mb-8">
+                Performance recrutement
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                <div class="bg-green-50 border border-green-100 rounded-3xl p-8 shadow hover:shadow-xl transition">
+                    <p class="text-green-700 font-semibold uppercase text-sm">
+                        Acceptées
+                    </p>
+                    <h3 class="text-5xl font-extrabold text-green-600 mt-4">
+                        {{ acceptedApplications }}
+                    </h3>
+                </div>
+
+                <div class="bg-yellow-50 border border-yellow-100 rounded-3xl p-8 shadow hover:shadow-xl transition">
+                    <p class="text-yellow-700 font-semibold uppercase text-sm">
+                        Entretiens
+                    </p>
+                    <h3 class="text-5xl font-extrabold text-yellow-500 mt-4">
+                        {{ interviewApplications }}
+                    </h3>
+                </div>
+
+                <div class="bg-red-50 border border-red-100 rounded-3xl p-8 shadow hover:shadow-xl transition">
+                    <p class="text-red-700 font-semibold uppercase text-sm">
+                        Refusées
+                    </p>
+                    <h3 class="text-5xl font-extrabold text-red-600 mt-4">
+                        {{ rejectedApplications }}
+                    </h3>
+                </div>
+
+            </div>
+        </section>
+
+    {% endif %}
+
+    <!-- CANDIDATE SPACE -->
+    {% if isCandidate %}
+
+        <section>
+            <h2 class="text-3xl font-bold text-slate-800 mb-8">
+                Mon espace candidat
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+                <a href="{{ path('app_candidate_profile_index') }}"
+                   class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl hover:-translate-y-2 transition block border border-slate-100">
+                    <div class="text-4xl mb-4">👤</div>
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-3">Mon Profil</h3>
+                    <p class="text-slate-600">Gérez votre identité professionnelle.</p>
+                </a>
+
+                <a href="{{ path('app_skill_index') }}"
+                   class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl hover:-translate-y-2 transition block border border-slate-100">
+                    <div class="text-4xl mb-4">🛠️</div>
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-3">Mes Compétences</h3>
+                    <p class="text-slate-600">Optimisez votre matching.</p>
+                </a>
+
+                <a href="{{ path('app_job_offer_index') }}"
+                   class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl hover:-translate-y-2 transition block border border-slate-100">
+                    <div class="text-4xl mb-4">💼</div>
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-3">Offres</h3>
+                    <p class="text-slate-600">Explorez les opportunités.</p>
+                </a>
+
+                <a href="{{ path('app_application_index') }}"
+                   class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl hover:-translate-y-2 transition block border border-slate-100">
+                    <div class="text-4xl mb-4">📊</div>
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-3">Mes Candidatures</h3>
+                    <p class="text-slate-600">Suivez votre progression.</p>
+                </a>
+
+            </div>
+        </section>
+
+    {% elseif isRecruiter %}
+
+        <!-- RECRUITER SPACE -->
+        <section>
+            <h2 class="text-3xl font-bold text-slate-800 mb-8">
+                Mon espace recruteur
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+                <a href="{{ path('app_company_index') }}"
+                   class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl hover:-translate-y-2 transition block border border-slate-100">
+                    <div class="text-4xl mb-4">🏢</div>
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-3">Mon Entreprise</h3>
+                    <p class="text-slate-600">Pilotez votre structure.</p>
+                </a>
+
+                <a href="{{ path('app_job_offer_index') }}"
+                   class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl hover:-translate-y-2 transition block border border-slate-100">
+                    <div class="text-4xl mb-4">💼</div>
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-3">Mes Offres</h3>
+                    <p class="text-slate-600">Publiez et gérez vos annonces.</p>
+                </a>
+
+                <a href="{{ path('app_application_index') }}"
+                   class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl hover:-translate-y-2 transition block border border-slate-100">
+                    <div class="text-4xl mb-4">📥</div>
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-3">Candidatures</h3>
+                    <p class="text-slate-600">Analysez vos candidats.</p>
+                </a>
+
+                <a href="{{ path('app_dashboard') }}"
+                   class="bg-white rounded-3xl shadow-lg p-8 hover:shadow-2xl hover:-translate-y-2 transition block border border-slate-100">
+                    <div class="text-4xl mb-4">📈</div>
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-3">KPIs RH</h3>
+                    <p class="text-slate-600">Suivez vos performances.</p>
+                </a>
+
+            </div>
+        </section>
+
+    {% elseif isAdmin %}
+
+        <!-- ADMIN SPACE -->
+        <section>
+            <h2 class="text-3xl font-bold text-slate-800 mb-8">
+                Administration globale
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+                <a href="{{ path('app_candidate_profile_index') }}"
+                   class="bg-white rounded-3xl shadow-lg p-8 text-center hover:shadow-2xl transition border border-slate-100">
+                    <div class="text-4xl mb-3">👥</div>
+                    <h3 class="text-xl font-bold text-indigo-700">Candidats</h3>
+                </a>
+
+                <a href="{{ path('app_company_index') }}"
+                   class="bg-white rounded-3xl shadow-lg p-8 text-center hover:shadow-2xl transition border border-slate-100">
+                    <div class="text-4xl mb-3">🏢</div>
+                    <h3 class="text-xl font-bold text-indigo-700">Entreprises</h3>
+                </a>
+
+                <a href="{{ path('app_job_offer_index') }}"
+                   class="bg-white rounded-3xl shadow-lg p-8 text-center hover:shadow-2xl transition border border-slate-100">
+                    <div class="text-4xl mb-3">💼</div>
+                    <h3 class="text-xl font-bold text-indigo-700">Offres</h3>
+                </a>
+
+                <a href="{{ path('app_application_index') }}"
+                   class="bg-white rounded-3xl shadow-lg p-8 text-center hover:shadow-2xl transition border border-slate-100">
+                    <div class="text-4xl mb-3">📊</div>
+                    <h3 class="text-xl font-bold text-indigo-700">Supervision</h3>
+                </a>
+
+            </div>
+        </section>
+
+    {% endif %}
+
+    <!-- QUICK ACTION CTA -->
+    <section class="bg-gradient-to-r from-slate-900 to-indigo-900 text-white rounded-3xl shadow-2xl p-12 text-center">
+
+        <h2 class="text-4xl font-extrabold mb-5">
+            SkillLink — Pilotage intelligent de carrière et recrutement
+        </h2>
+
+        <p class="text-slate-300 text-lg max-w-4xl mx-auto mb-8">
+            Centralisez vos opérations,
+            sécurisez vos données,
+            optimisez votre matching
+            et développez votre performance RH
+            grâce à une plateforme complète.
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+
+            <a href="{{ path('app_job_offer_index') }}"
+               class="bg-indigo-600 hover:bg-indigo-700 px-8 py-4 rounded-xl font-bold shadow-lg transition">
+                Explorer la plateforme
+            </a>
+
+            <a href="{{ path('app_home') }}"
+               class="border border-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-indigo-900 transition">
+                Retour accueil
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

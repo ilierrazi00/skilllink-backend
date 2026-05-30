@@ -1,0 +1,172 @@
+security:
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+            algorithm: auto
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    role_hierarchy:
+        ROLE_ADMIN:
+            - ROLE_RECRUITER
+            - ROLE_CANDIDATE
+            - ROLE_USER
+
+        ROLE_RECRUITER:
+            - ROLE_CANDIDATE
+            - ROLE_USER
+
+        ROLE_CANDIDATE:
+            - ROLE_USER
+
+    firewalls:
+        dev:
+            pattern: ^/(_profiler|_wdt|assets|build)/
+            security: false
+
+        # =====================================================
+        # API LOGIN JWT
+        # =====================================================
+        login:
+            pattern: ^/api/login
+            stateless: true
+
+            json_login:
+                check_path: /api/login
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        # =====================================================
+        # API JWT
+        # =====================================================
+        api:
+            pattern: ^/api
+            stateless: true
+            jwt: ~
+
+        # =====================================================
+        # WEB APP
+        # =====================================================
+        main:
+            lazy: true
+            provider: app_user_provider
+
+            custom_authenticator: App\Security\SkillLinkAuthenticator
+            entry_point: App\Security\SkillLinkAuthenticator
+
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+                always_remember_me: false
+
+            logout:
+                path: app_logout
+                target: app_home
+
+    access_control:
+
+        # =====================================================
+        # PUBLIC ACCESS
+        # =====================================================
+        - { path: ^/$, roles: PUBLIC_ACCESS }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/logout, roles: PUBLIC_ACCESS }
+        - { path: ^/verify/email, roles: PUBLIC_ACCESS }
+
+        # =====================================================
+        # RESET PASSWORD FLOW
+        # =====================================================
+        - { path: ^/forgot-password, roles: PUBLIC_ACCESS }
+        - { path: ^/reset-password, roles: PUBLIC_ACCESS }
+
+        # =====================================================
+        # PUBLIC API
+        # =====================================================
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/docs, roles: PUBLIC_ACCESS }
+        - { path: ^/api$, roles: PUBLIC_ACCESS }
+
+        # =====================================================
+        # SECURE API
+        # =====================================================
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+
+        # =====================================================
+        # DASHBOARD
+        # =====================================================
+        - { path: ^/dashboard, roles: ROLE_USER }
+
+        # =====================================================
+        # SETTINGS
+        # =====================================================
+        - { path: ^/settings, roles: ROLE_USER }
+
+        # =====================================================
+        # NOTIFICATIONS
+        # =====================================================
+        - { path: ^/notifications, roles: ROLE_USER }
+
+        # =====================================================
+        # MESSAGING SYSTEM
+        # =====================================================
+        - { path: ^/messages, roles: ROLE_USER }
+        - { path: ^/message, roles: ROLE_USER }
+
+        # =====================================================
+        # CANDIDATE PROFILE
+        # =====================================================
+        - { path: ^/candidate/profile, roles: ROLE_CANDIDATE }
+
+        # =====================================================
+        # SKILLS
+        # =====================================================
+        - { path: ^/skill/new, roles: ROLE_ADMIN }
+        - { path: ^/skill/\d+/edit, roles: ROLE_ADMIN }
+        - { path: ^/skill/\d+, roles: ROLE_USER }
+        - { path: ^/skill, roles: ROLE_CANDIDATE }
+
+        # =====================================================
+        # COMPANY
+        # =====================================================
+        - { path: ^/company/new, roles: ROLE_RECRUITER }
+        - { path: ^/company/\d+/edit, roles: ROLE_RECRUITER }
+        - { path: ^/company/\d+, roles: ROLE_RECRUITER }
+        - { path: ^/company, roles: ROLE_RECRUITER }
+
+        # =====================================================
+        # JOB OFFERS
+        # =====================================================
+        - { path: ^/job/offer/new, roles: ROLE_RECRUITER }
+        - { path: ^/job/offer/\d+/edit, roles: ROLE_RECRUITER }
+        - { path: ^/job/offer, roles: ROLE_USER }
+
+        # =====================================================
+        # APPLICATIONS
+        # =====================================================
+        - { path: ^/application, roles: ROLE_USER }
+
+        # =====================================================
+        # ADMIN ZONE
+        # =====================================================
+        - { path: ^/admin, roles: ROLE_ADMIN }
+
+        # =====================================================
+        # FALLBACK
+        # =====================================================
+        - { path: ^/, roles: PUBLIC_ACCESS }
+
+when@test:
+    security:
+        password_hashers:
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4
+                time_cost: 3
+                memory_cost: 10

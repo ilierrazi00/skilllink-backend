@@ -1,0 +1,65 @@
+# yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
+
+parameters:
+
+services:
+
+    # =====================================================
+    # DEFAULT CONFIGURATION
+    # =====================================================
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # =====================================================
+    # APPLICATION SERVICES AUTOLOAD
+    # =====================================================
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Document/'
+
+    # =====================================================
+    # MONGODB DOCUMENTS
+    # =====================================================
+    App\Document\:
+        resource: '../src/Document/'
+        public: false
+
+    # =====================================================
+    # AUDIT LOGGER SERVICE
+    # =====================================================
+    App\Service\AuditLoggerService:
+        arguments:
+            $documentManager: '@doctrine_mongodb.odm.document_manager'
+            $logger: '@logger'
+
+    # =====================================================
+    # NOTIFICATION SERVICE
+    # =====================================================
+    App\Service\NotificationService:
+        arguments:
+            $documentManager: '@doctrine_mongodb.odm.document_manager'
+
+    # =====================================================
+    # MESSAGE SERVICE
+    # =====================================================
+    App\Service\MessageService:
+        arguments:
+            $documentManager: '@doctrine_mongodb.odm.document_manager'
+
+    # =====================================================
+    # OPTIONAL FUTURE EXTENSIONS
+    # =====================================================
+    # Exemple :
+    # App\Service\AnalyticsService:
+    #     arguments:
+    #         $documentManager: '@doctrine_mongodb.odm.document_manager'
+
+    # Exemple :
+    # App\Service\SearchHistoryService:
+    #     arguments:
+    #         $documentManager: '@doctrine_mongodb.odm.document_manager'

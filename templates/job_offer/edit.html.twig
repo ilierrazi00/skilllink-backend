@@ -1,0 +1,175 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Offre | SkillLink{% endblock %}
+
+{% block body %}
+
+<div class="max-w-7xl mx-auto space-y-10">
+
+    <!-- HERO -->
+    <section class="bg-gradient-to-r from-indigo-700 to-purple-700 text-white rounded-3xl shadow-2xl p-10">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+
+            <div>
+                <span class="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-5">
+                    Recrutement • Optimisation continue
+                </span>
+
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+                    Modifier l’Offre d’Emploi ✏️
+                </h1>
+
+                <p class="text-lg text-indigo-100 max-w-3xl">
+                    Actualisez cette opportunité professionnelle,
+                    optimisez son attractivité,
+                    améliorez votre sourcing
+                    et renforcez votre stratégie de recrutement.
+                </p>
+            </div>
+
+            <div class="text-7xl hidden md:block">
+                🚀
+            </div>
+
+        </div>
+    </section>
+
+    <!-- KPI INFO -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-slate-100">
+            <h2 class="text-slate-500 text-sm uppercase font-semibold mb-2">
+                Offre active
+            </h2>
+
+            <p class="text-3xl font-bold text-indigo-700">
+                Oui
+            </p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-slate-100">
+            <h2 class="text-slate-500 text-sm uppercase font-semibold mb-2">
+                Matching IA
+            </h2>
+
+            <p class="text-3xl font-bold text-pink-600">
+                Smart
+            </p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-slate-100">
+            <h2 class="text-slate-500 text-sm uppercase font-semibold mb-2">
+                Performance RH
+            </h2>
+
+            <p class="text-3xl font-bold text-green-600">
+                Optimisable
+            </p>
+        </div>
+
+    </section>
+
+    <!-- FORM SECTION -->
+    <section class="bg-white rounded-3xl shadow-2xl p-10 border border-slate-100">
+
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-bold text-slate-800 mb-3">
+                Mise à jour de l’offre
+            </h2>
+
+            <p class="text-slate-600 text-lg">
+                Modifiez les informations stratégiques,
+                ajustez votre attractivité employeur
+                et améliorez les performances de diffusion.
+            </p>
+        </div>
+
+        <!-- FORM -->
+        <div class="space-y-8">
+            {{ include('job_offer/_form.html.twig', {
+                'button_label': 'Mettre à jour l’offre'
+            }) }}
+        </div>
+
+    </section>
+
+    <!-- ACTIONS -->
+    <section class="bg-white rounded-3xl shadow-lg p-8 border border-slate-100">
+
+        <div class="flex flex-col md:flex-row flex-wrap gap-4 justify-between items-center">
+
+            <div class="flex flex-wrap gap-4">
+
+                <a href="{{ path('app_job_offer_show', {'id': job_offer.id}) }}"
+                   class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-8 py-4 rounded-xl font-bold transition">
+                    👁️ Retour au détail
+                </a>
+
+                <a href="{{ path('app_job_offer_index') }}"
+                   class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-4 rounded-xl font-bold transition">
+                    ← Retour à la liste
+                </a>
+
+            </div>
+
+            <!-- DELETE -->
+            <div>
+                {{ include('job_offer/_delete_form.html.twig') }}
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- RECRUITER TIPS -->
+    <section class="bg-gradient-to-r from-slate-900 to-indigo-900 text-white rounded-3xl shadow-2xl p-10">
+
+        <h2 class="text-3xl font-extrabold mb-6 text-center">
+            Optimisez votre offre
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <div class="bg-white/10 rounded-2xl p-6 backdrop-blur-sm">
+                <h3 class="font-bold text-xl mb-3">
+                    📌 Clarté
+                </h3>
+
+                <p class="text-slate-200">
+                    Vérifiez la précision du poste,
+                    des missions
+                    et du niveau attendu.
+                </p>
+            </div>
+
+            <div class="bg-white/10 rounded-2xl p-6 backdrop-blur-sm">
+                <h3 class="font-bold text-xl mb-3">
+                    🧠 Matching
+                </h3>
+
+                <p class="text-slate-200">
+                    Ajustez les compétences clés
+                    pour améliorer la qualité des candidatures.
+                </p>
+            </div>
+
+            <div class="bg-white/10 rounded-2xl p-6 backdrop-blur-sm">
+                <h3 class="font-bold text-xl mb-3">
+                    📈 Conversion
+                </h3>
+
+                <p class="text-slate-200">
+                    Une offre optimisée augmente
+                    visibilité,
+                    attractivité
+                    et performance RH.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

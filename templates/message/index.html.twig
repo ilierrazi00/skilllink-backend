@@ -1,0 +1,145 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messagerie | SkillLink{% endblock %}
+
+{% block body %}
+
+<div class="max-w-7xl mx-auto py-12 space-y-10">
+
+    <!-- ===================================================== -->
+    <!-- HERO -->
+    <!-- ===================================================== -->
+    <section class="bg-gradient-to-r from-indigo-700 via-purple-700 to-indigo-900 text-white rounded-3xl shadow-2xl p-10 md:p-14">
+
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+
+            <div>
+                <span class="inline-block bg-white/20 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-5">
+                    Communication interne
+                </span>
+
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+                    Messagerie SkillLink 💬
+                </h1>
+
+                <p class="text-lg text-indigo-100 max-w-3xl leading-relaxed">
+                    Communiquez facilement entre candidats,
+                    recruteurs et administrateurs
+                    via une plateforme sécurisée.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-10">
+
+        <!-- ===================================================== -->
+        <!-- UTILISATEURS -->
+        <!-- ===================================================== -->
+        <aside class="bg-white rounded-3xl shadow-2xl border border-slate-100 p-8">
+
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">
+                Utilisateurs disponibles
+            </h2>
+
+            <div class="space-y-4 max-h-[700px] overflow-y-auto">
+
+                {% for user in users %}
+                    {% if user.id != currentUser.id %}
+
+                        <a href="{{ path('app_message_conversation', {'id': user.id}) }}"
+                           class="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-50 transition border border-slate-100">
+
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-600 to-purple-700 flex items-center justify-center text-white font-bold text-lg">
+                                {{ user.prenom ? user.prenom|first|upper : user.email|first|upper }}
+                            </div>
+
+                            <div>
+                                <div class="font-bold text-slate-800">
+                                    {{ user.prenom }} {{ user.nom }}
+                                </div>
+
+                                <div class="text-sm text-slate-500">
+                                    {{ user.roleType|capitalize }}
+                                </div>
+                            </div>
+
+                        </a>
+
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+
+        </aside>
+
+        <!-- ===================================================== -->
+        <!-- INBOX -->
+        <!-- ===================================================== -->
+        <section class="xl:col-span-2 bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
+
+            <div class="px-8 py-6 border-b border-slate-100 bg-slate-50">
+
+                <h2 class="text-2xl font-bold text-slate-800">
+                    Messages reçus
+                </h2>
+
+                <p class="text-slate-500 text-sm mt-2">
+                    Consultez vos dernières conversations.
+                </p>
+
+            </div>
+
+            <div class="divide-y divide-slate-100">
+
+                {% for message in inbox %}
+
+                    <div class="p-6 hover:bg-slate-50 transition">
+
+                        <div class="flex justify-between items-start gap-6">
+
+                            <div class="flex-1">
+
+                                <div class="font-bold text-slate-800 mb-2">
+                                    {{ message.senderEmail }}
+                                </div>
+
+                                <p class="text-slate-600 leading-relaxed">
+                                    {{ message.content|slice(0, 120) }}
+                                    {% if message.content|length > 120 %}...{% endif %}
+                                </p>
+
+                                <div class="text-xs text-slate-400 mt-3">
+                                    {{ message.createdAt|date('d/m/Y H:i') }}
+                                </div>
+
+                            </div>
+
+                            <a href="{{ path('app_message_conversation', {'id': message.senderId}) }}"
+                               class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-xl font-semibold shadow">
+                                Ouvrir
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="p-12 text-center text-slate-500 text-lg">
+                        Aucun message reçu pour le moment.
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+{% endblock %}

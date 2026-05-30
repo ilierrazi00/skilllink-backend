@@ -1,0 +1,137 @@
+{# templates/reset_password/email.html.twig #}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Réinitialisation SkillLink</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f1f5f9; font-family:Arial, sans-serif;">
+
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f1f5f9; padding:40px 0;">
+        <tr>
+            <td align="center">
+
+                <table width="650" cellpadding="0" cellspacing="0" border="0"
+                       style="background-color:#ffffff; border-radius:18px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,0.08);">
+
+                    <!-- HEADER -->
+                    <tr>
+                        <td align="center"
+                            style="background:linear-gradient(135deg,#4338ca,#7e22ce); padding:50px 40px; color:white;">
+
+                            <div style="font-size:14px; font-weight:bold; letter-spacing:1px; text-transform:uppercase; opacity:0.9; margin-bottom:20px;">
+                                Vérification sécurisée
+                            </div>
+
+                            <h1 style="margin:0; font-size:38px; line-height:1.3;">
+                                🔐 Réinitialisation de votre mot de passe
+                            </h1>
+
+                            <p style="margin-top:20px; font-size:18px; line-height:1.7; color:#e0e7ff;">
+                                SkillLink protège votre accès avec une procédure sécurisée.
+                            </p>
+
+                        </td>
+                    </tr>
+
+                    <!-- BODY -->
+                    <tr>
+                        <td style="padding:50px 45px; color:#334155;">
+
+                            <p style="font-size:18px; margin-bottom:25px;">
+                                Bonjour <strong>{{ user.prenom ?? user.email }}</strong>,
+                            </p>
+
+                            <p style="font-size:16px; line-height:1.8; margin-bottom:25px;">
+                                Nous avons reçu une demande de réinitialisation de votre mot de passe SkillLink.
+                            </p>
+
+                            <p style="font-size:16px; line-height:1.8; margin-bottom:35px;">
+                                Cliquez sur le bouton ci-dessous pour définir un nouveau mot de passe :
+                            </p>
+
+                            <!-- BUTTON -->
+                            <table cellpadding="0" cellspacing="0" border="0" align="center" style="margin-bottom:40px;">
+                                <tr>
+                                    <td align="center"
+                                        style="border-radius:12px; background:linear-gradient(135deg,#4338ca,#7e22ce);">
+
+                                        <a href="{{ resetUrl }}"
+                                           style="
+                                               display:inline-block;
+                                               padding:18px 35px;
+                                               color:#ffffff;
+                                               font-size:18px;
+                                               font-weight:bold;
+                                               text-decoration:none;
+                                               border-radius:12px;
+                                           ">
+                                            Réinitialiser mon mot de passe
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- LINK FALLBACK -->
+                            <p style="font-size:14px; color:#64748b; line-height:1.8;">
+                                Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur :
+                            </p>
+
+                            <p style="word-break:break-all; font-size:13px; color:#4338ca; line-height:1.8;">
+                                {{ resetUrl }}
+                            </p>
+
+                            <!-- EXPIRATION -->
+                            <div style="
+                                margin-top:35px;
+                                padding:20px;
+                                background-color:#eef2ff;
+                                border-radius:14px;
+                                text-align:center;
+                            ">
+                                <p style="margin:0; font-size:15px; color:#475569;">
+                                    Ce lien expirera dans :
+                                </p>
+
+                                <p style="margin-top:10px; font-size:22px; font-weight:bold; color:#4338ca;">
+                                    {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}
+                                </p>
+                            </div>
+
+                            <!-- SECURITY -->
+                            <div style="margin-top:40px;">
+                                <p style="font-size:14px; color:#64748b; line-height:1.8;">
+                                    Si vous n’êtes pas à l’origine de cette demande,
+                                    ignorez simplement cet email.
+                                </p>
+                            </div>
+
+                        </td>
+                    </tr>
+
+                    <!-- FOOTER -->
+                    <tr>
+                        <td align="center"
+                            style="background-color:#f8fafc; padding:30px; border-top:1px solid #e2e8f0;">
+
+                            <p style="margin:0; font-size:14px; color:#64748b;">
+                                SkillLink — Smart Recruitment Platform 🚀
+                            </p>
+
+                            <p style="margin-top:10px; font-size:12px; color:#94a3b8;">
+                                Sécurité • RGPD • Recrutement intelligent
+                            </p>
+
+                        </td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>
