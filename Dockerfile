@@ -1,4 +1,4 @@
-FROM php:8.2-cli
+FROM php:8.2-fpm
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -6,9 +6,12 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     zip \
     libssl-dev \
-    pkg-config
+    pkg-config \
+    libpng-dev \
+    libonig-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN pecl install mongodb-1.21.5 \
+RUN pecl install mongodb \
     && docker-php-ext-enable mongodb
 
 RUN docker-php-ext-install \
@@ -23,6 +26,7 @@ WORKDIR /app
 COPY . .
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV APP_ENV=prod
 
 RUN composer install \
     --no-interaction \
@@ -30,6 +34,8 @@ RUN composer install \
     --no-dev \
     --optimize-autoloader
 
+RUN php bin/console cache:warmup --env=prod || true
+
 EXPOSE 8080
 
-CMD ["sh", "-c", "php -S 0.0.0.0:${PORT} -t public"]
+CMD ["sh", "-c", "php -S 0.0.0.0:${PORT:-8080} -t public"]
