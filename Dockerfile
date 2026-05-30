@@ -22,7 +22,13 @@ WORKDIR /app
 
 COPY composer.json composer.lock ./
 
-RUN composer install --no-interaction --prefer-dist
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+RUN composer install \
+    --no-interaction \
+    --prefer-dist \
+    --no-dev \
+    --optimize-autoloader
 
 COPY . .
 
