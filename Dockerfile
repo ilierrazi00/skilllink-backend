@@ -38,4 +38,6 @@ RUN php bin/console cache:warmup --env=prod || true
 
 EXPOSE 8080
 
+RUN php bin/console tailwind:build --env=prod || true
+
 CMD ["sh", "-c", "php -S 0.0.0.0:$PORT -t public"]
