@@ -27,7 +27,9 @@ RUN rm -rf vendor
 RUN composer install \
     --no-interaction \
     --prefer-dist \
-    --no-scripts
+    --no-scripts \
+ && ls -la vendor \
+ && ls -la vendor/autoload_runtime.php
 
 EXPOSE 8000
 
