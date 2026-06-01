@@ -142,4 +142,55 @@ class MessageController extends AbstractController
             $formattedMessages
         );
     }
+
+    /*
+ |----------------------------------------------------------------------
+ | Inbox - liste des conversations
+ |----------------------------------------------------------------------
+ */
+#[Route('/inbox', methods: ['GET'])]
+public function getInbox(
+    #[CurrentUser] ?User $user
+): JsonResponse {
+
+    if (!$user) {
+        return $this->json(['message' => 'Unauthorized'], 401);
+    }
+
+    $messages = $this->messageService->getInbox((string) $user->getId());
+
+    $formattedMessages = [];
+
+    foreach ($messages as $message) {
+        $formattedMessages[] = [
+            'id' => $message->getId(),
+            'senderId' => $message->getSenderId(),
+            'senderEmail' => $message->getSenderEmail(),
+            'content' => $message->getContent(),
+            'isRead' => $message->isRead(),
+            'createdAt' => $message->getCreatedAt()->format('Y-m-d H:i:s'),
+        ];
+    }
+
+    return $this->json($formattedMessages);
+}
+
+/*
+ |----------------------------------------------------------------------
+ | Messages non lus
+ |----------------------------------------------------------------------
+ */
+#[Route('/unread', methods: ['GET'])]
+public function countUnread(
+    #[CurrentUser] ?User $user
+): JsonResponse {
+
+    if (!$user) {
+        return $this->json(['message' => 'Unauthorized'], 401);
+    }
+
+    $count = $this->messageService->countUnreadMessages((string) $user->getId());
+
+    return $this->json(['count' => $count]);
+}
 }
